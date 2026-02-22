@@ -37,5 +37,5 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 ## Setup steps
 
 1. Create a simple project. You can use CLI tooling for such purposes. Do not install dependencies yet.
-    1. 
+    1. I recommend you use `bun create vite . --template react-ts`.
 2. Copy any files from `files` keeping the structure underneath it, and replacing any placeholders in those files.
