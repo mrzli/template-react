@@ -66,3 +66,4 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
     - Make sure that the `stories` directory is on the same level as `src`, and that it only contains the story file you added.
     - Make sure that the Storybook is configured to use that `stories` directory and not any other one.
     - Make sure that Tailwind styles work with Storybook (no need to run, just check any configuration).
+    - Check that the configuration files are only referencing the features you are actually using (e.g. no addons that you are not using).
