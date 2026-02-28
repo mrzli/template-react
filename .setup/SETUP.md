@@ -38,6 +38,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 
 ## Setup steps
 
+- Prompt for project name.
 - Create a simple project. You can use CLI tooling for such purposes. Do not install dependencies yet.
   - I recommend you use `bun create vite . --template react-ts --no-interactive`.
   - You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
@@ -57,3 +58,11 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - `stories` directory should be outside of `src`, on the same level.
   - Do not use all the default features, use only essentials and `docs`.
+  - Remove all the default stories added by the Storybook setup.
+  - Add just one simple story to be able to showcase that the Storybook is working. Use best practices for that story (e.g. CSF format, args, controls, docs).
+    - The component should use Tailwind, to make sure that Tailwind is working in Storybook as well.
+  - Check the setup:
+    - Make sure there is no `stories` directory in `src`.
+    - Make sure that the `stories` directory is on the same level as `src`, and that it only contains the story file you added.
+    - Make sure that the Storybook is configured to use that `stories` directory and not any other one.
+    - Make sure that Tailwind styles work with Storybook (no need to run, just check any configuration).
