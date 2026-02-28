@@ -41,7 +41,9 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
     2. You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
 2. Copy any files from `files` keeping the structure underneath it, and replacing any placeholders in those files.
 3. Install dependencies.
-4. Remove most of the components and styles
+4. Remove most of the components and styles.
+    1. Keep `App.tsx` and `index.css` with just some minimal placeholder content, so that the project is runnable and shows something on the screen.
+    2. Remove all other app files.
 4. Add following tools:
     1. Storybook.
     2. Prettier.
