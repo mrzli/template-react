@@ -53,3 +53,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Add Tailwind.
   - Remember to run the install command after.
   - Update `App.tsx` to showcase a simple Tailwind usage (e.g. a styled div with some text).
+- Add Storybook.
+  - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
+  - `stories` directory should be outside of `src`, on the same level.
+  - Do not use all the default features, use only essentials and `docs`.
