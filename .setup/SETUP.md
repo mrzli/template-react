@@ -6,6 +6,8 @@ Single source of truth for stack, environment, steps, and conventions. This proj
 
 Use `bun` for all javascript ecosystem tooling and package management. Do not use `node`, `npm`, `pnpm` or `yarn` for running any scripts if not absolutely necessary! Feel free to use other tools such as `bash`, `ruby`, `python` or whatever is needed and appropriate.
 
+Do just the steps specified in 'Setup steps' and anything else that is implied by conventions and required to make the project runnable. Do not add other dependencies or tools unless specified.
+
 ## Placeholders
 
 When a value is not fixed (e.g. differs per clone or machine), we use **angle brackets** in this doc and in script comments:
