@@ -38,7 +38,6 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 
 ## Setup steps
 
-- Prompt for project name.
 - Create a simple project. You can use CLI tooling for such purposes. Do not install dependencies yet.
   - I recommend you use `bun create vite . --template react-ts --no-interactive`.
   - You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
