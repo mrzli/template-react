@@ -37,7 +37,8 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 ## Setup steps
 
 1. Create a simple project. You can use CLI tooling for such purposes. Do not install dependencies yet.
-    1. I recommend you use `bun create vite . --template react-ts`.
+    1. I recommend you use `bun create vite . --template react-ts --no-interactive`.
+    2. You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
 2. Copy any files from `files` keeping the structure underneath it, and replacing any placeholders in those files.
 3. Install dependencies.
 4. Remove most of the components and styles
