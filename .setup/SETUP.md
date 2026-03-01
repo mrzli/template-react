@@ -38,9 +38,11 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 
 ## Setup steps
 
-- Create a simple project. You can use CLI tooling for such purposes. Do not install dependencies yet.
+- Create a simple project. You can use CLI tooling for such purposes.
   - I recommend you use `bun create vite . --template react-ts --no-interactive`.
   - You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
+  - Rename the project name in `package.json` and `index.html` to the name of the project directory.
+  - Do not install dependencies yet.
 - Copy any files and directories from `files` keeping the structure underneath it, and replacing any placeholders in those files.
   - In any future steps, do not edit `.vscode/settings.json` or `.prettierrc` files, as they are already set up with the correct configuration.
 - Install dependencies.
@@ -55,7 +57,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Update `App.tsx` to showcase a simple Tailwind usage (e.g. a styled div with some text).
 - Add Storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
-  - Consider using `bunx storybook@latest init -- --features minimal` for initial installation.
+  - Consider using `bun create storybook@latest --features docs --yes` for initial installation.
   - `stories` directory should be outside of `src`, on the same level.
   - Do not use all the default features, use only essentials and `docs`.
   - Remove all the default stories added by the Storybook setup.
