@@ -1,5 +1,15 @@
 {
   "chat.tools.terminal.autoApprove": {
-    "bun add": true
+    "bun add": true,
+    "bun create": true,
+    "bun install": true,
+    "bun dev": true,
+    "bun run build": true,
+    "bun run lint": true,
+    "cat": true,
+    "cd": true,
+    "clear": true,
+    "echo": true,
+    "ls": true
   }
 }
