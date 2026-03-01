@@ -42,6 +42,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - I recommend you use `bun create vite . --template react-ts --no-interactive`.
   - You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
 - Copy any files and directories from `files` keeping the structure underneath it, and replacing any placeholders in those files.
+  - In any future steps, do not edit `.vscode/settings.json` or `.prettierrc` files, as they are already set up with the correct configuration.
 - Install dependencies.
 - Remove most of the components and styles.
   - Keep `App.tsx` and `index.css` with just some minimal placeholder content, so that the project is runnable and shows something on the screen.
@@ -49,12 +50,12 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Remove all other app files.
 - Add linting and formatting.
   - I recommend ESLint and Prettier, but you can choose other tools if you prefer.
-  - You will already be provided with `.prettierrc` by this step. Do not change it.
 - Add Tailwind.
   - Remember to run the install command after.
   - Update `App.tsx` to showcase a simple Tailwind usage (e.g. a styled div with some text).
 - Add Storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
+  - Consider using `bunx storybook@latest init -- --features minimal` for initial installation.
   - `stories` directory should be outside of `src`, on the same level.
   - Do not use all the default features, use only essentials and `docs`.
   - Remove all the default stories added by the Storybook setup.
