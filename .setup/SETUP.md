@@ -81,4 +81,8 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Add just two simple routes rendered under `App` component to be able to showcase that the routing is working.
   - Use best practices for that (e.g. separate route components, use of loaders and actions).
   - For loaders and actions, just use to simples possible solution to render something, hardcode, or use frontend-only in-memory data, do not add any backend or API for that.
-  
+- Add React Toolkit support.
+  - Use best practices for that (e.g. create a slice, use hooks).
+  - Use `src/store/` for the store setup and slices.
+  - Create a minimal example which showcases the store and state management.
+    - In the example, showcase RTK query usage with a simple in-memory data source (e.g. a hardcoded array or an in-memory object). Do not add any backend or API for that.
