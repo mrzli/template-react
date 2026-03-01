@@ -37,6 +37,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Use `readonly` for fields whenever possible, and use readonly arrays and tuples instead of mutable ones when possible.
   - All branching and looping should be implemented using a block statement (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
   - All lambda functions which return `void` (or `Promise<void>` for async ones) should be implemented with a block body (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
+    - Do the same for functions which return other types, if that return value is meant to be ignored (e.g. many event handlers).
 
 ## Stack
 
@@ -93,3 +94,6 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Create a minimal example which showcases the store and state management.
     - In the example, showcase RTK query usage with a simple in-memory data source (e.g. a hardcoded array or an in-memory object). Do not add any backend or API for that.
     - Make sure to use proper cache invalidation to avoid stale data in the example.
+- Finalize the setup.
+  - Check for conventions and consistency across the project, and fix any issues if needed.
+  - Delete any log or temporary files created during the setup.
