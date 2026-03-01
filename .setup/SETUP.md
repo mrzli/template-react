@@ -35,12 +35,13 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - When both options are appropriate, prefer interface over type for types.
     - However, if type inheritance is needed when using interfaces, prefer type with intersection instead.
   - Use `readonly` for fields whenever possible, and use readonly arrays and tuples instead of mutable ones when possible.
+  - All branching and looping should be implemented using a block statement (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
+  - All lambda functions which return `void` (or `Promise<void>` for async ones) should be implemented with a block body (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
 
 ## Stack
 
 - **Runtime / build:** Bun. Package manager is assumed available.
 - **App:** React, Vite, TypeScript.
-- **Tooling:** None for now.
 
 ## Environment
 
@@ -91,3 +92,4 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Use `src/store/` for the store setup and slices.
   - Create a minimal example which showcases the store and state management.
     - In the example, showcase RTK query usage with a simple in-memory data source (e.g. a hardcoded array or an in-memory object). Do not add any backend or API for that.
+    - Make sure to use proper cache invalidation to avoid stale data in the example.
