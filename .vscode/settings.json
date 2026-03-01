@@ -1,4 +1,7 @@
 {
+  "chat.tools.edits.autoApprove": {
+    "**/package.json": true
+  },
   "chat.tools.terminal.autoApprove": {
     "bun add": true,
     "bun create": true,
