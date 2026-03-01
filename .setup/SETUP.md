@@ -27,9 +27,14 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - API reference, runbooks, generated docs go in `docs/` when added.
 - Code:
   - All source code files names will be in kebab-case, including React components (e.g. `my-component.tsx`), to avoid confusion and maintain consistency.
+  - All exports should be named unless there is a strong reason otherwise.
+    - This includes React components.
   - All React components will go under `src/app/`.
   - Routing will go under `src/routing/`.
   - Other things choose as appropriate, I will explicitly specify here later on if needed.
+  - When both options are appropriate, prefer interface over type for types.
+    - However, if type inheritance is needed when using interfaces, prefer type with intersection instead.
+  - Use `readonly` for fields whenever possible, and use readonly arrays and tuples instead of mutable ones when possible.
 
 ## Stack
 
