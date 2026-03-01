@@ -21,9 +21,15 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 
 ## Conventions
 
-- **Setup definition** lives in `.setup/` (this file and `setup.sh`). Do not put app documentation here.
-- **App docs** (API reference, runbooks, generated docs) go in `docs/` when added.
-- **Cursor:** Project rules and agent guidance in `.cursor/`; they may reference `.setup/SETUP.md`.
+- Setup definition:
+  - Lives in `.setup/` (this file and `setup.sh`). Do not put app documentation here.
+- Documentation:
+  - API reference, runbooks, generated docs go in `docs/` when added.
+- Code:
+  - All source code files names will be in kebab-case, including React components (e.g. `my-component.tsx`), to avoid confusion and maintain consistency.
+  - All React components will go under `src/app/`.
+  - Routing will go under `src/routing/`.
+  - Other things choose as appropriate, I will explicitly specify here later on if needed.
 
 ## Stack
 
@@ -48,7 +54,8 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Install dependencies.
 - Remove most of the components and styles.
   - Keep `App.tsx` and `index.css` with just some minimal placeholder content, so that the project is runnable and shows something on the screen.
-  - Make sure `App.tsx` exports a React component as a named export `App` (not default export).
+  - Rename `App.tsx` to `app.tsx` and move under `src/app/` to follow the conventions.
+  - Make sure `app.tsx` exports a React component as a named export `App` (not default export), again to follow the conventions.
   - Remove all other app files.
 - Add linting and formatting.
   - I recommend ESLint and Prettier, but you can choose other tools if you prefer.
@@ -69,3 +76,9 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
     - Make sure that the Storybook is configured to use that `stories` directory and not any other one.
     - Make sure that Tailwind styles work with Storybook (no need to run, just check any configuration).
     - Check that the configuration files are only referencing the features you are actually using (e.g. no addons that you are not using).
+- Add React Router.
+  - Use tht 'Data' mode with loaders and actions.
+  - Add just two simple routes rendered under `App` component to be able to showcase that the routing is working.
+  - Use best practices for that (e.g. separate route components, use of loaders and actions).
+  - For loaders and actions, just use to simples possible solution to render something, hardcode, or use frontend-only in-memory data, do not add any backend or API for that.
+  
