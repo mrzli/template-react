@@ -66,6 +66,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Add Tailwind.
   - Use `##-setup-tailwind.py` for this.
 - Add storybook.
+  - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Use `##-setup-storybook.py` for this.
 - Add React Router.
   - Use tht 'Data' mode with loaders and actions.
