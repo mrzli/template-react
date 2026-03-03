@@ -113,6 +113,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
       - Additionally, if you are left with an `import { type VariantProps }`, it can be changed to `import type { VariantProps }` for better readability and consistency.
   - There should be an index file exporting all the files in that directory.
   - Add another page to the app where all of the components and variants are showcased.
+    - Read the `controls` directory to find out what all of the controls are, the use each of them, alphabetically on this showcase page.
 - Finalize the setup.
   - Check for conventions and consistency across the project, and fix any issues if needed.
   - Make sure to format the entire project, specifically the source code files.
