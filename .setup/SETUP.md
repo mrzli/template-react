@@ -4,8 +4,6 @@ All input file paths for this are this directory, `.setup`. Project needs to be 
 
 Single source of truth for stack, environment, steps, and conventions. This project will later be a React app; this document defines how to bootstrap and maintain it.
 
-Use `bun` for all javascript ecosystem tooling and package management. Do not use `node`, `npm`, `pnpm` or `yarn` for running any scripts if not absolutely necessary! Feel free to use other tools such as `bash`, `ruby`, `python` or whatever is needed and appropriate.
-
 Do just the steps specified in 'Setup steps' and anything else that is implied by conventions and required to make the project runnable. Do not add other dependencies or tools unless specified.
 
 ## Placeholders
@@ -26,18 +24,9 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Documentation:
   - API reference, runbooks, generated docs go in `docs/` when added.
 - Code:
-  - All source code files names will be in kebab-case, including React components (e.g. `my-component.tsx`), to avoid confusion and maintain consistency.
-  - All exports should be named unless there is a strong reason otherwise.
-    - This includes React components.
   - All React components will go under `src/app/`.
   - Routing will go under `src/routing/`.
-  - Other things choose as appropriate, I will explicitly specify here later on if needed.
-  - When both options are appropriate, prefer interface over type for types.
-    - However, if type inheritance is needed when using interfaces, prefer type with intersection instead.
-  - Use `readonly` for fields whenever possible, and use readonly arrays and tuples instead of mutable ones when possible.
-  - All branching and looping should be implemented using a block statement (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
-  - All lambda functions which return `void` (or `Promise<void>` for async ones) should be implemented with a block body (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
-    - Do the same for functions which return other types, if that return value is meant to be ignored (e.g. many event handlers).
+- See `.github/copilot-instructions.md` for other coding conventions and guidelines.
 
 ## Stack
 

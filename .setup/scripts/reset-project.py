@@ -4,7 +4,7 @@ import shutil
 import sys
 from pathlib import Path
 
-KEEP = {".git", ".setup", ".vscode"}
+KEEP = {".git", ".github", ".setup", ".vscode"}
 
 dry_run = "--dry-run" in sys.argv
 
