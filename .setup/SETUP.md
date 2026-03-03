@@ -66,6 +66,8 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Remove all other app files.
 - Add linting and formatting.
   - I recommend ESLint and Prettier, but you can choose other tools if you prefer.
+  - Add import linting rules.
+    - Specifically, I recommend adding `eslint-plugin-simple-import-sort` to implement proper sorting.
 - Add Tailwind.
   - Remember to run the install command after.
   - Update `App.tsx` to showcase a simple Tailwind usage (e.g. a styled div with some text).
@@ -102,7 +104,13 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Add `shadcn/ui` to the project.
   - This may require you to first add path aliases to the tsconfing and vite config, so do that if needed.
   - Add all components to the project.
-  - Add another page where many of the components are showcased.
+    - Components should be added directly under `src/controls/` directory.
+  - Extract variant functions of the components into separate files.
+    - For example, `buttonVariants` function for the button component should be extracted into `button-variants.ts` file.
+  - There should be an index file exporting all the files in that directory.
+  - Add another page to the app where all of the components and variants are showcased.
 - Finalize the setup.
   - Check for conventions and consistency across the project, and fix any issues if needed.
+  - Make sure to format the entire project, specifically the source code files.
+    - For example, make sure that all quotes are consistent, and other linting/prettier rules are followed.
   - Delete any log or temporary files created during the setup.
