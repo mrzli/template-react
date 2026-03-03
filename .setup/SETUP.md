@@ -69,10 +69,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Use `##-setup-storybook.py` for this.
 - Add React Router.
-  - Use tht 'Data' mode with loaders and actions.
-  - Add just two simple routes rendered under `App` component to be able to showcase that the routing is working.
-  - Use best practices for that (e.g. separate route components, use of loaders and actions).
-  - For loaders and actions, just use to simples possible solution to render something, hardcode, or use frontend-only in-memory data, do not add any backend or API for that.
+  - Use `##-setup-react-router.py` for this.
 - Add React Toolkit support.
   - Use best practices for that (e.g. create a slice, use hooks).
   - Use `src/store/` for the store setup and slices.
