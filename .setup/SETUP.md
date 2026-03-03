@@ -64,8 +64,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Add linting and formatting.
   - Use `##-setup-linting.py` for this.
 - Add Tailwind.
-  - Remember to run the install command after.
-  - Update `App.tsx` to showcase a simple Tailwind usage (e.g. a styled div with some text).
+  - Use `##-setup-tailwind.py` for this.
 - Add Storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Consider using `bun create storybook@latest --features docs --yes` for initial installation.
