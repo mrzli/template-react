@@ -67,16 +67,8 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Use `##-setup-react-router.py` for this.
 - Add Tailwind.
   - Use `##-setup-tailwind.py` for this.
-- Add React Toolkit support.
-  - Use best practices for that (e.g. create a slice, use hooks).
-  - Use `src/store/` for the store setup and slices.
-  - Create a minimal example which showcases the store and state management.
-    - In the example, showcase RTK query usage with a simple in-memory data source (e.g. a hardcoded array or an in-memory object). Do not add any backend or API for that.
-    - Make sure to use proper cache invalidation to avoid stale data in the example.
-  - Slices should be stored under `slices/` subdirectory.
-  - Api should be stored under `api/` subdirectory.
-  - Slices, api and the main store directory should all have index files for easier imports.
-    - Each index file should export all files in that directory, and all direct subdirectories, which will each have their index files for recursive exporting.
+- Add Redux Toolkit.
+  - Use `##-setup-redux.py` for this.
 - Add low level controls.
   - Add `shadcn/ui` to the project.
   - This may require you to first add path aliases to the tsconfing and vite config, so do that if needed.
