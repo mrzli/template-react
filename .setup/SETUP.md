@@ -94,8 +94,13 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Create a minimal example which showcases the store and state management.
     - In the example, showcase RTK query usage with a simple in-memory data source (e.g. a hardcoded array or an in-memory object). Do not add any backend or API for that.
     - Make sure to use proper cache invalidation to avoid stale data in the example.
+  - Slices should be stored under `slices/` subdirectory.
+  - Api should be stored under `api/` subdirectory.
+  - Slices, api and the main store directory should all have index files for easier imports.
+    - Each index file should export all files in that directory, and all direct subdirectories, which will each have their index files for recursive exporting.
 - Add low level controls.
   - Add `shadcn/ui` to the project.
+  - This may require you to first add path aliases to the tsconfing and vite config, so do that if needed.
   - Add all components to the project.
   - Add another page where many of the components are showcased.
 - Finalize the setup.
