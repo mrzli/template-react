@@ -54,24 +54,20 @@ def patch_preview_ts() -> None:
     path.write_text(src)
 
 
-GREETING_TSX = """\
+GREETING_STORIES_TSX = """\
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
 interface GreetingProps {
   readonly name: string;
 }
 
-export function Greeting({ name }: GreetingProps) {
+function Greeting({ name }: GreetingProps) {
   return (
     <div className='rounded-lg bg-blue-50 p-4'>
       <p className='text-lg font-semibold text-blue-800'>Hello, {name}!</p>
     </div>
   );
 }
-"""
-
-GREETING_STORIES_TSX = """\
-import type { Meta, StoryObj } from '@storybook/react-vite';
-
-import { Greeting } from '../src/app/greeting';
 
 const meta: Meta<typeof Greeting> = {
   title: 'App/Greeting',
@@ -120,36 +116,35 @@ def main() -> None:
     print("  patched  .storybook/main.ts")
 
     # 5. Remove all default stories scaffold content
-    print("\n[5] Clean stories/ directory")
+    print("\n[5] Clean stories/ and src/stories/ directories")
     stories_dir = ROOT / "stories"
     if stories_dir.exists():
         shutil.rmtree(stories_dir)
     stories_dir.mkdir()
+    src_stories_dir = ROOT / "src" / "stories"
+    if src_stories_dir.exists():
+        shutil.rmtree(src_stories_dir)
     print("  cleaned  stories/")
+    print("  cleaned  src/stories/")
 
     # 6. Patch .storybook/preview.ts — add Tailwind CSS import
     print("\n[6] Patch .storybook/preview.ts")
     patch_preview_ts()
     print("  patched  .storybook/preview.ts")
 
-    # 7. Add sample Greeting component to src/app/
-    print("\n[7] Create src/app/greeting.tsx")
-    (ROOT / "src" / "app" / "greeting.tsx").write_text(GREETING_TSX)
-    print("  created  src/app/greeting.tsx")
-
-    # 8. Add sample story
-    print("\n[8] Create stories/greeting.stories.tsx")
+    # 7. Add sample story (Greeting component defined inline)
+    print("\n[7] Create stories/greeting.stories.tsx")
     (stories_dir / "greeting.stories.tsx").write_text(GREETING_STORIES_TSX)
     print("  created  stories/greeting.stories.tsx")
 
-    # 9. Delete debug log left by storybook init
-    print("\n[9] Remove debug-storybook.log")
+    # 8. Delete debug log left by storybook init
+    print("\n[8] Remove debug-storybook.log")
     log = ROOT / "debug-storybook.log"
     if log.exists():
         log.unlink()
         print("  removed  debug-storybook.log")
     else:
-        print("  not found, skipping")
+        print("  not found, skipping  debug-storybook.log")
 
     print("\nDone.")
 

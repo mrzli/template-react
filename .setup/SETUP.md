@@ -65,7 +65,9 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Use `##-setup-linting.py` for this.
 - Add Tailwind.
   - Use `##-setup-tailwind.py` for this.
-- Add Storybook.
+- Add storybook.
+  - Use `##-setup-storybook.py` for this.
+<!-- - Add Storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Consider using `bun create storybook@latest --features docs --yes` for initial installation.
   - `stories` directory should be outside of `src`, on the same level.
@@ -78,7 +80,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
     - Make sure that the `stories` directory is on the same level as `src`, and that it only contains the story file you added.
     - Make sure that the Storybook is configured to use that `stories` directory and not any other one.
     - Make sure that Tailwind styles work with Storybook (no need to run, just check any configuration).
-    - Check that the configuration files are only referencing the features you are actually using (e.g. no addons that you are not using).
+    - Check that the configuration files are only referencing the features you are actually using (e.g. no addons that you are not using). -->
 - Add React Router.
   - Use tht 'Data' mode with loaders and actions.
   - Add just two simple routes rendered under `App` component to be able to showcase that the routing is working.
