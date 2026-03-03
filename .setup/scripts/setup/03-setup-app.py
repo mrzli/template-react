@@ -8,11 +8,30 @@ SRC = ROOT / "src"
 
 
 APP_TSX = """\
+import type { CSSProperties } from 'react';
+
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+
+const logoRowStyle: CSSProperties = {
+  display: 'flex',
+  gap: '1rem',
+  marginTop: '1rem',
+};
+
+const logoStyle: CSSProperties = {
+  height: '4rem',
+};
+
 export function App() {
   return (
     <div>
       <h1>template-react</h1>
       <p>App is running.</p>
+      <div style={logoRowStyle}>
+        <img alt='Vite logo' src={viteLogo} style={logoStyle} />
+        <img alt='React logo' src={reactLogo} style={logoStyle} />
+      </div>
     </div>
   );
 }
@@ -51,7 +70,7 @@ def main() -> None:
     print("  updated  src/main.tsx")
 
     # Remove unused files
-    for rel in ["App.tsx", "App.css", "assets"]:
+    for rel in ["App.tsx", "App.css"]:
         target = SRC / rel
         if target.exists():
             shutil.rmtree(target) if target.is_dir() else target.unlink()

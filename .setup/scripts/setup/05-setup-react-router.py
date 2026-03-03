@@ -107,6 +107,9 @@ HOME_PAGE_TSX = """\
 import type { CSSProperties } from 'react';
 import { useLoaderData } from 'react-router';
 
+import reactLogo from '../assets/react.svg';
+import viteLogo from '/vite.svg';
+
 interface HomeLoaderData {
   readonly message: string;
   readonly items: readonly string[];
@@ -131,6 +134,16 @@ const listStyle: CSSProperties = {
   marginTop: '0.5rem',
 };
 
+const logoRowStyle: CSSProperties = {
+  display: 'flex',
+  gap: '1rem',
+  marginTop: '1rem',
+};
+
+const logoStyle: CSSProperties = {
+  height: '4rem',
+};
+
 // eslint-disable-next-line react-refresh/only-export-components
 export function homeLoader(): HomeLoaderData {
   return {
@@ -151,6 +164,10 @@ export function HomePage() {
           <li key={item}>{item}</li>
         ))}
       </ul>
+      <div style={logoRowStyle}>
+        <img alt='Vite logo' src={viteLogo} style={logoStyle} />
+        <img alt='React logo' src={reactLogo} style={logoStyle} />
+      </div>
     </div>
   );
 }
