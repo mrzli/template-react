@@ -36,7 +36,7 @@ def write_main_tsx() -> None:
 
 
 APP_TSX = """\
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { Link, Outlet } from 'react-router';
 
 const rootStyle: CSSProperties = {
@@ -104,7 +104,7 @@ export const router = createBrowserRouter([
 """
 
 HOME_PAGE_TSX = """\
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { useLoaderData } from 'react-router';
 
 interface HomeLoaderData {
@@ -145,7 +145,7 @@ export function HomePage() {
 """
 
 ABOUT_PAGE_TSX = """\
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { Form, useActionData } from 'react-router';
 
 interface AboutActionData {
