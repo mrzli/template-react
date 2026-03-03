@@ -94,6 +94,10 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Create a minimal example which showcases the store and state management.
     - In the example, showcase RTK query usage with a simple in-memory data source (e.g. a hardcoded array or an in-memory object). Do not add any backend or API for that.
     - Make sure to use proper cache invalidation to avoid stale data in the example.
+- Add low level controls.
+  - Add `shadcn/ui` to the project.
+  - Add all components to the project.
+  - Add another page where many of the components are showcased.
 - Finalize the setup.
   - Check for conventions and consistency across the project, and fix any issues if needed.
   - Delete any log or temporary files created during the setup.
