@@ -62,9 +62,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Remove most of the components and styles.
   - Use `##-cleanup-components.py` for this.
 - Add linting and formatting.
-  - I recommend ESLint and Prettier, but you can choose other tools if you prefer.
-  - Add import linting rules.
-    - Specifically, I recommend adding `eslint-plugin-simple-import-sort` to implement proper sorting.
+  - Use `##-setup-linting.py` for this.
 - Add Tailwind.
   - Remember to run the install command after.
   - Update `App.tsx` to showcase a simple Tailwind usage (e.g. a styled div with some text).
