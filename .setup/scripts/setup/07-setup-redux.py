@@ -164,6 +164,12 @@ const sectionStyle: CSSProperties = {
   marginBottom: '2rem',
 };
 
+const pageHeadingStyle: CSSProperties = {
+  fontSize: '1.5rem',
+  fontWeight: 700,
+  marginBottom: '1.5rem',
+};
+
 const headingStyle: CSSProperties = {
   fontSize: '1.25rem',
   fontWeight: 600,
@@ -227,7 +233,7 @@ export function ReduxPage() {
 
   return (
     <div>
-      <h1>Redux</h1>
+      <h1 style={pageHeadingStyle}>Redux</h1>
 
       <section style={sectionStyle}>
         <h2 style={headingStyle}>Counter Slice</h2>

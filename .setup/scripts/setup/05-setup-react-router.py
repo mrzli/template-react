@@ -119,6 +119,18 @@ const cardStyle: CSSProperties = {
   padding: '1.5rem 2rem',
 };
 
+const headingStyle: CSSProperties = {
+  fontSize: '1.5rem',
+  fontWeight: 700,
+  marginBottom: '0.5rem',
+};
+
+const listStyle: CSSProperties = {
+  listStyleType: 'disc',
+  paddingInlineStart: '1.5rem',
+  marginTop: '0.5rem',
+};
+
 // eslint-disable-next-line react-refresh/only-export-components
 export function homeLoader(): HomeLoaderData {
   return {
@@ -132,9 +144,9 @@ export function HomePage() {
 
   return (
     <div style={cardStyle}>
-      <h1>{message}</h1>
+      <h1 style={headingStyle}>{message}</h1>
       <p>This data was provided by a loader.</p>
-      <ul>
+      <ul style={listStyle}>
         {items.map((item) => (
           <li key={item}>{item}</li>
         ))}
@@ -157,6 +169,12 @@ const cardStyle: CSSProperties = {
   border: '1px solid #e5e5e5',
   borderRadius: '8px',
   padding: '1.5rem 2rem',
+};
+
+const headingStyle: CSSProperties = {
+  fontSize: '1.5rem',
+  fontWeight: 700,
+  marginBottom: '0.5rem',
 };
 
 const formStyle: CSSProperties = {
@@ -208,7 +226,7 @@ export function AboutPage() {
 
   return (
     <div style={cardStyle}>
-      <h1>About</h1>
+      <h1 style={headingStyle}>About</h1>
       <p>Submit the form below to trigger a route action.</p>
       <Form style={formStyle} method='post'>
         <input
