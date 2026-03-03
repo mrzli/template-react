@@ -36,17 +36,47 @@ def write_main_tsx() -> None:
 
 
 APP_TSX = """\
+import { CSSProperties } from 'react';
 import { Link, Outlet } from 'react-router';
+
+const rootStyle: CSSProperties = {
+  minHeight: '100vh',
+  fontFamily: 'system-ui, -apple-system, sans-serif',
+  background: '#f5f5f5',
+  color: '#222',
+};
+
+const navStyle: CSSProperties = {
+  background: '#fff',
+  borderBottom: '1px solid #e5e5e5',
+  padding: '0.75rem 1.5rem',
+  display: 'flex',
+  gap: '1.25rem',
+};
+
+const linkStyle: CSSProperties = {
+  color: '#2563eb',
+  textDecoration: 'none',
+};
+
+const mainStyle: CSSProperties = {
+  maxWidth: '720px',
+  margin: '2rem auto',
+  padding: '0 1.5rem',
+};
 
 export function App() {
   return (
-    <div>
-      <nav>
-        <Link to='/'>Home</Link>
-        {' | '}
-        <Link to='/about'>About</Link>
+    <div style={rootStyle}>
+      <nav style={navStyle}>
+        <Link style={linkStyle} to='/'>
+          Home
+        </Link>
+        <Link style={linkStyle} to='/about'>
+          About
+        </Link>
       </nav>
-      <main>
+      <main style={mainStyle}>
         <Outlet />
       </main>
     </div>
@@ -74,12 +104,20 @@ export const router = createBrowserRouter([
 """
 
 HOME_PAGE_TSX = """\
+import { CSSProperties } from 'react';
 import { useLoaderData } from 'react-router';
 
 interface HomeLoaderData {
   readonly message: string;
   readonly items: readonly string[];
 }
+
+const cardStyle: CSSProperties = {
+  background: '#fff',
+  border: '1px solid #e5e5e5',
+  borderRadius: '8px',
+  padding: '1.5rem 2rem',
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function homeLoader(): HomeLoaderData {
@@ -93,7 +131,7 @@ export function HomePage() {
   const { message, items } = useLoaderData<typeof homeLoader>();
 
   return (
-    <div>
+    <div style={cardStyle}>
       <h1>{message}</h1>
       <p>This data was provided by a loader.</p>
       <ul>
@@ -107,11 +145,52 @@ export function HomePage() {
 """
 
 ABOUT_PAGE_TSX = """\
+import { CSSProperties } from 'react';
 import { Form, useActionData } from 'react-router';
 
 interface AboutActionData {
   readonly greeting: string;
 }
+
+const cardStyle: CSSProperties = {
+  background: '#fff',
+  border: '1px solid #e5e5e5',
+  borderRadius: '8px',
+  padding: '1.5rem 2rem',
+};
+
+const formStyle: CSSProperties = {
+  display: 'flex',
+  gap: '0.5rem',
+  marginTop: '0.5rem',
+};
+
+const inputStyle: CSSProperties = {
+  flex: 1,
+  padding: '0.5rem 0.75rem',
+  border: '1px solid #ccc',
+  borderRadius: '6px',
+  fontSize: '1rem',
+};
+
+const buttonStyle: CSSProperties = {
+  padding: '0.5rem 1rem',
+  background: '#2563eb',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '6px',
+  cursor: 'pointer',
+  fontSize: '1rem',
+};
+
+const resultStyle: CSSProperties = {
+  marginTop: '1rem',
+  padding: '0.75rem 1rem',
+  background: '#eff6ff',
+  border: '1px solid #bfdbfe',
+  borderRadius: '6px',
+  color: '#1e40af',
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function aboutAction({
@@ -128,14 +207,21 @@ export function AboutPage() {
   const data = useActionData<typeof aboutAction>();
 
   return (
-    <div>
+    <div style={cardStyle}>
       <h1>About</h1>
       <p>Submit the form below to trigger a route action.</p>
-      <Form method='post'>
-        <input name='name' placeholder='Your name' type='text' />
-        <button type='submit'>Submit</button>
+      <Form style={formStyle} method='post'>
+        <input
+          name='name'
+          placeholder='Your name'
+          style={inputStyle}
+          type='text'
+        />
+        <button style={buttonStyle} type='submit'>
+          Submit
+        </button>
       </Form>
-      {data !== undefined && <p>{data.greeting}</p>}
+      {data !== undefined && <p style={resultStyle}>{data.greeting}</p>}
     </div>
   );
 }

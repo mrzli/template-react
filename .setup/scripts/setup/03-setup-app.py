@@ -18,9 +18,6 @@ export function App() {
 }
 """
 
-INDEX_CSS = """\
-"""
-
 MAIN_TSX = """\
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -45,8 +42,8 @@ def main() -> None:
     (app_dir / "app.tsx").write_text(APP_TSX)
     print("  created  src/app/app.tsx")
 
-    # Write minimal src/index.css
-    (SRC / "index.css").write_text(INDEX_CSS)
+    # Write empty src/index.css
+    (SRC / "index.css").write_text("")
     print("  updated  src/index.css")
 
     # Update src/main.tsx

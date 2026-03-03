@@ -46,8 +46,8 @@ def patch_app_tsx() -> None:
     path = ROOT / "src" / "app" / "app.tsx"
     src = path.read_text()
     src = src.replace(
-        "        <Link to='/about'>About</Link>\n      </nav>",
-        "        <Link to='/about'>About</Link>\n        {' | '}\n        <Link to='/tailwind'>Tailwind</Link>\n      </nav>",
+        "        <Link style={linkStyle} to='/about'>\n          About\n        </Link>\n      </nav>",
+        "        <Link style={linkStyle} to='/about'>\n          About\n        </Link>\n        <Link style={linkStyle} to='/tailwind'>\n          Tailwind\n        </Link>\n      </nav>",
     )
     path.write_text(src)
 
