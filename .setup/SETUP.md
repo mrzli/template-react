@@ -52,11 +52,11 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 ## Setup steps
 
 - Create a simple project. You can use CLI tooling for such purposes.
-  - I recommend you use `bun create vite . --template react-ts --no-interactive`.
-  - You will need to create it in a temporary directory and then copy the files over, because it will otherwise complain about the directory not being empty.
-  - Rename the project name in `package.json` and `index.html` to the name of the project directory.
+  - Use `##-setup-react-vite.py` to do this. Pass in the project name, equal to the root directory name of this project.
   - Do not install dependencies yet.
-- Copy any files and directories from `files` keeping the structure underneath it, and replacing any placeholders in those files.
+- Copy any files and directories from `files`.
+  - Use `##-copy-files.py` for this.
+  - Replace any placeholders in those files with the actual values (e.g. `<project-name>` with the project name).
   - In any future steps, do not edit `.vscode/settings.json` or `.prettierrc` files, as they are already set up with the correct configuration.
 - Install dependencies.
 - Remove most of the components and styles.
