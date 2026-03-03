@@ -12,10 +12,10 @@ Do just the steps specified in 'Setup steps' and anything else that is implied b
 
 When a value is not fixed (e.g. differs per clone or machine), we use **angle brackets** in this doc and in script comments:
 
-| Placeholder        | Meaning |
-| ------------------ | ------- |
-| `<root>`           | Project root directory (where `.setup/` lives). Not an absolute path; resolve at runtime (e.g. script’s working directory or `$(dirname "$0")/..`). |
-| `<project-name>`   | Human or package name of the project (e.g. for `package.json` `name`, README title). |
+| Placeholder      | Meaning                                                                                                                                             |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<root>`         | Project root directory (where `.setup/` lives). Not an absolute path; resolve at runtime (e.g. script’s working directory or `$(dirname "$0")/..`). |
+| `<project-name>` | Human or package name of the project (e.g. for `package.json` `name`, README title).                                                                |
 
 This follows common CLI/man-style convention: replace `<placeholder>` with your actual value. Do not use curly braces `{...}` here so as to avoid confusion with shell variables or templating syntax.
 
@@ -107,10 +107,15 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
     - Components should be added directly under `src/controls/` directory.
   - Extract variant functions of the components into separate files.
     - For example, `buttonVariants` function for the button component should be extracted into `button-variants.ts` file.
+    - Make sure that the new files have correct imports.
+      - Specifically, original component files will probably not need to import `cva` from `'class-variance-authority'`.
+      - Also, variant files will probably not need `type VariantProps` from `'class-variance-authority'`.
+      - Additionally, if you are left with an `import { type VariantProps }`, it can be changed to `import type { VariantProps }` for better readability and consistency.
   - There should be an index file exporting all the files in that directory.
   - Add another page to the app where all of the components and variants are showcased.
 - Finalize the setup.
   - Check for conventions and consistency across the project, and fix any issues if needed.
   - Make sure to format the entire project, specifically the source code files.
     - For example, make sure that all quotes are consistent, and other linting/prettier rules are followed.
+  - Make sure that code files don't have unused imports.
   - Delete any log or temporary files created during the setup.
