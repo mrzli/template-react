@@ -60,10 +60,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - In any future steps, do not edit `.vscode/settings.json` or `.prettierrc` files, as they are already set up with the correct configuration.
 - Install dependencies.
 - Remove most of the components and styles.
-  - Keep `App.tsx` and `index.css` with just some minimal placeholder content, so that the project is runnable and shows something on the screen.
-  - Rename `App.tsx` to `app.tsx` and move under `src/app/` to follow the conventions.
-  - Make sure `app.tsx` exports a React component as a named export `App` (not default export), again to follow the conventions.
-  - Remove all other app files.
+  - Use `##-cleanup-components.py` for this.
 - Add linting and formatting.
   - I recommend ESLint and Prettier, but you can choose other tools if you prefer.
   - Add import linting rules.
