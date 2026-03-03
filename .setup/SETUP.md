@@ -74,6 +74,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - This may require you to first add path aliases to the tsconfing and vite config, so do that if needed.
   - Add all components to the project.
     - Components should be added directly under `src/controls/` directory.
+  - PART 2 of this section starts here, DO NOT DO THIS YET:
   - Extract variant functions of the components into separate files.
     - For example, `buttonVariants` function for the button component should be extracted into `button-variants.ts` file.
     - Make sure that the new files have correct imports.
