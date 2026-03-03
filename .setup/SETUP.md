@@ -63,13 +63,10 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Use `##-cleanup-components.py` for this.
 - Add linting and formatting.
   - Use `##-setup-linting.py` for this.
-- Add Tailwind.
-  - Use `##-setup-tailwind.py` for this.
-- Add storybook.
-  - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
-  - Use `##-setup-storybook.py` for this.
 - Add React Router.
   - Use `##-setup-react-router.py` for this.
+- Add Tailwind.
+  - Use `##-setup-tailwind.py` for this.
 - Add React Toolkit support.
   - Use best practices for that (e.g. create a slice, use hooks).
   - Use `src/store/` for the store setup and slices.
@@ -94,6 +91,9 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - There should be an index file exporting all the files in that directory.
   - Add another page to the app where all of the components and variants are showcased.
     - Read the `controls` directory to find out what all of the controls are, the use each of them, alphabetically on this showcase page.
+- Add storybook.
+  - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
+  - Use `##-setup-storybook.py` for this.
 - Finalize the setup.
   - Check for conventions and consistency across the project, and fix any issues if needed.
   - Make sure to format the entire project, specifically the source code files.

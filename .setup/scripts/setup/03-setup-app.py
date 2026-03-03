@@ -9,7 +9,12 @@ SRC = ROOT / "src"
 
 APP_TSX = """\
 export function App() {
-  return <div>App</div>;
+  return (
+    <div>
+      <h1>template-react</h1>
+      <p>App is running.</p>
+    </div>
+  );
 }
 """
 

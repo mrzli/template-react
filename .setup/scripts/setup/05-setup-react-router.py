@@ -40,24 +40,13 @@ import { Link, Outlet } from 'react-router';
 
 export function App() {
   return (
-    <div className='min-h-screen bg-gray-100'>
-      <nav className='bg-white shadow-sm'>
-        <div className='mx-auto flex max-w-3xl gap-6 px-4 py-3'>
-          <Link
-            className='font-medium text-blue-600 hover:text-blue-800'
-            to='/'
-          >
-            Home
-          </Link>
-          <Link
-            className='font-medium text-blue-600 hover:text-blue-800'
-            to='/about'
-          >
-            About
-          </Link>
-        </div>
+    <div>
+      <nav>
+        <Link to='/'>Home</Link>
+        {' | '}
+        <Link to='/about'>About</Link>
       </nav>
-      <main className='mx-auto max-w-3xl px-4 py-8'>
+      <main>
         <Outlet />
       </main>
     </div>
@@ -96,7 +85,7 @@ interface HomeLoaderData {
 export function homeLoader(): HomeLoaderData {
   return {
     message: 'Welcome to the home page!',
-    items: ['React', 'Vite', 'TypeScript', 'Tailwind CSS', 'React Router'],
+    items: ['React', 'Vite', 'TypeScript', 'React Router'],
   };
 }
 
@@ -104,14 +93,12 @@ export function HomePage() {
   const { message, items } = useLoaderData<typeof homeLoader>();
 
   return (
-    <div className='rounded-xl bg-white p-8 shadow-md'>
-      <h1 className='text-2xl font-bold text-gray-800'>{message}</h1>
-      <p className='mt-2 text-gray-500'>This data was provided by a loader.</p>
-      <ul className='mt-4 space-y-1'>
+    <div>
+      <h1>{message}</h1>
+      <p>This data was provided by a loader.</p>
+      <ul>
         {items.map((item) => (
-          <li className='text-gray-700' key={item}>
-            • {item}
-          </li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
     </div>
@@ -141,30 +128,14 @@ export function AboutPage() {
   const data = useActionData<typeof aboutAction>();
 
   return (
-    <div className='rounded-xl bg-white p-8 shadow-md'>
-      <h1 className='text-2xl font-bold text-gray-800'>About</h1>
-      <p className='mt-2 text-gray-500'>
-        Submit the form below to trigger a route action.
-      </p>
-      <Form className='mt-6 flex gap-3' method='post'>
-        <input
-          className='flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400'
-          name='name'
-          placeholder='Your name'
-          type='text'
-        />
-        <button
-          className='rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700'
-          type='submit'
-        >
-          Submit
-        </button>
+    <div>
+      <h1>About</h1>
+      <p>Submit the form below to trigger a route action.</p>
+      <Form method='post'>
+        <input name='name' placeholder='Your name' type='text' />
+        <button type='submit'>Submit</button>
       </Form>
-      {data !== undefined && (
-        <p className='mt-4 rounded-lg bg-blue-50 px-4 py-3 text-blue-800'>
-          {data.greeting}
-        </p>
-      )}
+      {data !== undefined && <p>{data.greeting}</p>}
     </div>
   );
 }
