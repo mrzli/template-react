@@ -23,6 +23,7 @@
 - Avoid one-letter variable names.
 - Avoid inline comments unless requested.
 - Match existing code style in touched files.
+- Make sure to update relevant comments and documentation when making code/configuration changes that affect them.
 
 ## React Guidelines
 
