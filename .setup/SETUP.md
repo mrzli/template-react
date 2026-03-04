@@ -63,7 +63,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - This may require you to first add path aliases to the tsconfing and vite config, so do that if needed.
   - Add all components to the project.
     - Components should be added directly under `src/controls/` directory.
-  - PART 2 of this section starts here, DO NOT DO THIS YET:
+  - PART 2:
   - Extract variant functions of the components into separate files.
     - For example, `buttonVariants` function for the button component should be extracted into `button-variants.ts` file.
     - Make sure that the new files have correct imports.
@@ -71,6 +71,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
       - Also, variant files will probably not need `type VariantProps` from `'class-variance-authority'`.
       - Additionally, if you are left with an `import { type VariantProps }`, it can be changed to `import type { VariantProps }` for better readability and consistency.
   - There should be an index file exporting all the files in that directory.
+  - PART 3 of this section starts here, DO NOT DO THIS YET:
   - Add another page to the app where all of the components and variants are showcased.
     - Read the `controls` directory to find out what all of the controls are, the use each of them, alphabetically on this showcase page.
 - Add storybook.
