@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 
+# What this script does:
+# 1. Creates src/app/app.tsx — minimal component showing the Vite and React logos
+# 2. Writes an empty src/index.css
+# 3. Writes src/main.tsx with StrictMode wrapping the App component
+# 4. Removes the default Vite boilerplate files (App.tsx, App.css)
+# 5. Keeps src/assets/ (contains react.svg used by the app)
+
 import shutil
 from pathlib import Path
 

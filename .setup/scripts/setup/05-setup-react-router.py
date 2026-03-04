@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+# What this script does:
+# 1. Installs react-router
+# 2. Creates src/routing/router.tsx — createBrowserRouter with App layout and two child routes
+# 3. Creates src/app/app.tsx — layout component with nav links and <Outlet>
+# 4. Creates src/app/home-page.tsx — loader returning welcome message; shows Vite/React logos
+# 5. Creates src/app/about-page.tsx — async action handling a Form POST, returns a greeting
+# 6. Rewrites src/main.tsx to use RouterProvider
+
 import subprocess
 import sys
 from pathlib import Path

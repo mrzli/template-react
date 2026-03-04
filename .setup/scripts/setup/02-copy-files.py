@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+# What this script does:
+# 1. Copies all files from .setup/files/ to the project root
+#    - .prettierignore
+#    - .prettierrc
+#    - bunfig.toml
+
 import shutil
 from pathlib import Path
 

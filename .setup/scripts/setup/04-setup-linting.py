@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+# What this script does:
+# 1. Installs eslint-plugin-simple-import-sort and prettier as dev dependencies
+# 2. Patches eslint.config.js to add simple-import-sort plugin and rules
+# 3. Adds a "format" script (prettier --write .) to package.json
+# 4. Runs eslint --fix . to apply import sorting to all existing files
+
 import json
 import subprocess
 import sys

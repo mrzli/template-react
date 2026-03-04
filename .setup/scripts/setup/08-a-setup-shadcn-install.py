@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
 # What this script does:
-# 1. Adds @/* path alias to tsconfig.app.json (required by shadcn)
-# 2. Patches vite.config.ts to add path.resolve alias
-# 3. Runs `bunx shadcn@latest init` (zinc base color, CSS variables on)
-# 4. Adds ALL shadcn components into src/controls/ directory
+# 1. Patches tsconfig.app.json to add the @/* path alias (required by shadcn)
+# 2. Patches tsconfig.json (root) to add the same alias (shadcn CLI reads this directly)
+# 3. Patches vite.config.ts to add path.resolve alias for @/ → src/
+# 4. Runs eslint --fix on vite.config.ts to sort the new import
+# 5. Runs shadcn init (zinc base color, CSS variables enabled) — writes components.json,
+#    updates src/index.css with CSS variables, installs clsx/tailwind-merge, creates src/lib/utils.ts
+# 6. Adds all available shadcn components into src/controls/
 
 import subprocess
 import sys

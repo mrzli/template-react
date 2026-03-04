@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+# What this script does:
+# 1. Installs tailwindcss and @tailwindcss/vite as dev dependencies
+# 2. Patches vite.config.ts to add the tailwindcss() Vite plugin
+# 3. Writes @import "tailwindcss" to src/index.css
+# 4. Creates src/app/tailwind-page.tsx — showcases utility classes (buttons, color grid)
+# 5. Patches src/routing/router.tsx to add the /tailwind route
+# 6. Patches src/app/app.tsx nav to add a Tailwind link
+
 import subprocess
 import sys
 from pathlib import Path

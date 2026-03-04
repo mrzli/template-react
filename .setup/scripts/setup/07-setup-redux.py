@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
-"""Step 07 – Redux Toolkit setup.
 
-- Installs @reduxjs/toolkit and react-redux.
-- Creates src/store/ with:
-    store.ts        – configureStore, RootState, AppDispatch
-    hooks.ts        – typed useAppDispatch / useAppSelector
-    index.ts        – re-exports store, hooks, api/, slices/
-    slices/
-        counter-slice.ts
-        index.ts
-    api/
-        items-api.ts  – fakeBaseQuery, in-memory data, cache tags
-        index.ts
-- Creates src/app/redux-page.tsx showcasing both the counter slice and RTK Query.
-- Patches src/routing/router.tsx to add /redux route.
-- Patches src/app/app.tsx nav to add Redux link.
-- Rewrites src/main.tsx to wrap with <Provider>.
-- Runs eslint --fix on all new / modified files.
-"""
+# What this script does:
+# 1. Installs @reduxjs/toolkit and react-redux
+# 2. Creates src/store/ with:
+#    - store.ts — configureStore, RootState, AppDispatch
+#    - hooks.ts — typed useAppDispatch and useAppSelector
+#    - index.ts — re-exports store, hooks, api/, slices/
+#    - slices/counter-slice.ts — increment/decrement/reset actions
+#    - slices/index.ts — re-exports slices
+#    - api/items-api.ts — createApi with fakeBaseQuery, in-memory data, cache tags
+#    - api/index.ts — re-exports api
+# 3. Creates src/app/redux-page.tsx — showcases counter slice and RTK Query items list
+# 4. Rewrites src/main.tsx to wrap RouterProvider with Redux <Provider>
+# 5. Patches src/routing/router.tsx to add the /redux route
+# 6. Patches src/app/app.tsx nav to add a Redux link
+# 7. Runs eslint --fix on all new and modified files
 
 import subprocess
 from pathlib import Path
