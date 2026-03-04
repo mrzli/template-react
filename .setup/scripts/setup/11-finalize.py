@@ -6,6 +6,7 @@
 # - Runs prettier --write . to enforce consistent formatting across all files
 # - Removes the dist/ build output directory (if present)
 # - Removes the tmp/ scaffold directory (if present)
+# - Removes components.json (shadcn config, not needed at runtime)
 
 import shutil
 import subprocess
@@ -43,6 +44,15 @@ def remove_dir(name: str) -> None:
         print(f"  skipped  {name}/ (not found)")
 
 
+def remove_file(name: str) -> None:
+    path = ROOT / name
+    if path.exists():
+        path.unlink()
+        print(f"  removed  {name}")
+    else:
+        print(f"  skipped  {name} (not found)")
+
+
 def main() -> None:
     print(f"Root: {ROOT}\n")
 
@@ -65,6 +75,10 @@ def main() -> None:
     # 5. Remove tmp/
     print("\n[5] Remove tmp/")
     remove_dir("tmp")
+
+    # 6. Remove components.json
+    print("\n[6] Remove components.json")
+    remove_file("components.json")
 
     print("\nDone.")
 
