@@ -67,8 +67,5 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Use `##-setup-storybook.py` for this.
 - Finalize the setup.
-  - Check for conventions and consistency across the project, and fix any issues if needed.
-  - Make sure to format the entire project, specifically the source code files.
-    - For example, make sure that all quotes are consistent, and other linting/prettier rules are followed.
-  - Make sure that code files don't have unused imports.
-  - Delete any log or temporary files or directories created during the setup.
+  - Use `##-finalize-setup.py` for this.
+  - Additionally, for conventions and consistency across the project, and fix any issues if needed.

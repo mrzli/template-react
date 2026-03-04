@@ -315,66 +315,203 @@ def write_index() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Lint fixes for shadcn files
+# Lint fixes for shadcn files — extract hooks/contexts to separate files
 # ---------------------------------------------------------------------------
 
 
+def _insert_import(src: str, import_line: str) -> str:
+    """Insert import_line before the first existing 'import' statement."""
+    m = re.search(r"^import ", src, re.MULTILINE)
+    if m:
+        return src[: m.start()] + import_line + src[m.start() :]
+    return import_line + src
+
+
 def fix_combobox_lint() -> None:
+    """Extract useComboboxAnchor → combobox-hooks.ts; drop unused children param."""
     path = CONTROLS / "combobox.tsx"
     src = path.read_text()
-    # Remove unused 'children' from ComboboxChipsInput destructure
-    src = src.replace(
-        "  className,\n  children,\n  ...props\n}: ComboboxPrimitive.Input.Props)",
-        "  className,\n  ...props\n}: ComboboxPrimitive.Input.Props)",
+
+    # Remove unused 'children' parameter from ComboboxChipsInput
+    src = re.sub(
+        r"(\{\n  className,\n)  children,\n(  \.\.\.props\n\}: ComboboxPrimitive\.Input\.Props)",
+        r"\1\2",
+        src,
     )
-    # Suppress react-refresh for useComboboxAnchor (hook exported alongside components)
-    src = src.replace(
-        "export function useComboboxAnchor()",
-        "// eslint-disable-next-line react-refresh/only-export-components\nexport function useComboboxAnchor()",
+
+    # Extract useComboboxAnchor function to combobox-hooks.ts
+    m = re.search(
+        r"\nexport function useComboboxAnchor\(\) \{[^}]*\}\n",
+        src,
     )
+    if not m:
+        raise ValueError("combobox.tsx: useComboboxAnchor not found")
+    hook_body = m.group(0).lstrip("\n")
+    (CONTROLS / "combobox-hooks.ts").write_text(
+        '"use client"\n\nimport * as React from "react"\n\n' + hook_body
+    )
+    src = src[: m.start()] + src[m.end() :]
     path.write_text(src)
-    print("  fixed  combobox.tsx")
+    print("  extracted  combobox.tsx  →  combobox-hooks.ts")
 
 
 def fix_direction_lint() -> None:
+    """Extract useDirection → direction-hooks.ts."""
     path = CONTROLS / "direction.tsx"
     src = path.read_text()
-    # Suppress react-refresh for useDirection (re-export alongside component)
-    src = src.replace(
-        "export const useDirection = Direction.useDirection;",
-        "// eslint-disable-next-line react-refresh/only-export-components\nexport const useDirection = Direction.useDirection;",
+    # shadcn files use no-semicolons style — match without trailing semicolon
+    hook_line = "export const useDirection = Direction.useDirection\n"
+    if hook_line not in src:
+        raise ValueError("direction.tsx: useDirection not found")
+    (CONTROLS / "direction-hooks.ts").write_text(
+        '"use client"\n\nimport { Direction } from "radix-ui"\n\n' + hook_line
     )
+    # Remove the line and its preceding blank line
+    src = src.replace("\n" + hook_line, "\n")
     path.write_text(src)
-    print("  fixed  direction.tsx")
+    print("  extracted  direction.tsx  →  direction-hooks.ts")
 
 
 def fix_form_lint() -> None:
+    """Extract FormFieldContext, FormItemContext, useFormField → form-hooks.ts.
+
+    form.tsx has three non-contiguous blocks to extract:
+      A. FormFieldContextValue type + FormFieldContext  (before FormField component)
+      B. useFormField function                          (between FormField and FormItemContextValue)
+      C. FormItemContextValue type + FormItemContext    (after useFormField)
+    """
     path = CONTROLS / "form.tsx"
     src = path.read_text()
-    # Suppress react-refresh for useFormField (hook exported alongside components)
-    src = src.replace(
-        "export const useFormField = () => {",
-        "// eslint-disable-next-line react-refresh/only-export-components\nexport const useFormField = () => {",
+
+    # Block A: FormFieldContextValue type + FormFieldContext createContext
+    mA = re.search(
+        r"\ntype FormFieldContextValue<.*?"
+        r"^const FormFieldContext = React\.createContext<FormFieldContextValue>\(.*?\)\n",
+        src,
+        re.DOTALL | re.MULTILINE,
     )
+    if not mA:
+        raise ValueError("form.tsx: FormFieldContextValue/Context block not found")
+
+    # Block B: useFormField arrow function (no-semicolons style closes with `}\n`)
+    mB = re.search(
+        r"\nexport const useFormField = \(\) => \{.*?^}\n",
+        src,
+        re.DOTALL | re.MULTILINE,
+    )
+    if not mB:
+        raise ValueError("form.tsx: useFormField not found")
+
+    # Block C: FormItemContextValue type + FormItemContext createContext
+    mC = re.search(
+        r"\ntype FormItemContextValue = \{.*?"
+        r"^const FormItemContext = React\.createContext<FormItemContextValue>\(.*?\)\n",
+        src,
+        re.DOTALL | re.MULTILINE,
+    )
+    if not mC:
+        raise ValueError("form.tsx: FormItemContextValue/Context block not found")
+
+    blockA = mA.group(0).lstrip("\n")
+    blockB = mB.group(0).lstrip("\n")
+    blockC = mC.group(0).lstrip("\n")
+
+    # Assemble form-hooks.ts: contexts first (A, C), then the hook (B)
+    # form.tsx has no "use client" directive
+    hooks_content = (
+        'import * as React from "react"\n'
+        'import type { FieldPath, FieldValues } from "react-hook-form"\n'
+        'import { useFormContext, useFormState } from "react-hook-form"\n\n'
+        + blockA
+        + "\n"
+        + blockC
+        + "\n"
+        + blockB
+    )
+    # form.tsx imports FormFieldContext and FormItemContext — they must be exported
+    hooks_content = hooks_content.replace(
+        "const FormFieldContext = React.createContext",
+        "export const FormFieldContext = React.createContext",
+    )
+    hooks_content = hooks_content.replace(
+        "const FormItemContext = React.createContext",
+        "export const FormItemContext = React.createContext",
+    )
+    (CONTROLS / "form-hooks.ts").write_text(hooks_content)
+
+    # Remove all three blocks — work from highest offset to lowest to preserve indices
+    assert mA.start() < mB.start() < mC.start()
+    src = src[: mC.start()] + src[mC.end() :]
+    src = src[: mB.start()] + src[mB.end() :]
+    src = src[: mA.start()] + src[mA.end() :]
+
+    # form.tsx internally uses FormFieldContext.Provider, FormItemContext.Provider,
+    # and calls useFormField() — import them from the new hooks file
+    import_line = (
+        "import { FormFieldContext, FormItemContext, useFormField }"
+        ' from "./form-hooks"\n'
+    )
+    src = _insert_import(src, import_line)
+    # useFormContext and useFormState moved to form-hooks.ts — remove from form.tsx
+    src = re.sub(r"[ \t]+useFormContext,?\n", "", src)
+    src = re.sub(r"[ \t]+useFormState,?\n", "", src)
     path.write_text(src)
-    print("  fixed  form.tsx")
+    print("  extracted  form.tsx  →  form-hooks.ts")
 
 
 def fix_sidebar_lint() -> None:
+    """Extract SidebarContextProps, SidebarContext, useSidebar → sidebar-hooks.ts.
+    Also replace Math.random() with a stable literal value."""
     path = CONTROLS / "sidebar.tsx"
     src = path.read_text()
-    # Suppress react-refresh for useSidebar (hook exported alongside components)
-    src = src.replace(
-        "export function useSidebar() {",
-        "// eslint-disable-next-line react-refresh/only-export-components\nexport function useSidebar() {",
+
+    # Extract SidebarContextProps type + SidebarContext const + useSidebar function.
+    # Anchor the end on useSidebar (not ^}\n alone, which would match the type def first).
+    m = re.search(
+        r"\ntype SidebarContextProps = \{.*?"
+        r"^export function useSidebar\(\) \{.*?^}\n",
+        src,
+        re.DOTALL | re.MULTILINE,
     )
-    # Replace Math.random() in SidebarMenuSkeleton with a stable literal value
-    src = src.replace(
-        "  // Random width between 50 to 90%.\n  const width = React.useMemo(() => {\n    return `${Math.floor(Math.random() * 40) + 50}%`;\n  }, []);",
-        "  const width = '60%';",
+    if not m:
+        raise ValueError("sidebar.tsx: SidebarContextProps/useSidebar block not found")
+
+    block = m.group(0).lstrip("\n")
+    # sidebar.tsx has no top-level "use client" directive after cva extraction
+    hooks_content = 'import * as React from "react"\n\n' + block
+    # sidebar.tsx imports SidebarContextProps and SidebarContext — they must be exported
+    hooks_content = hooks_content.replace(
+        "type SidebarContextProps = {",
+        "export type SidebarContextProps = {",
     )
+    hooks_content = hooks_content.replace(
+        "const SidebarContext = React.createContext",
+        "export const SidebarContext = React.createContext",
+    )
+    (CONTROLS / "sidebar-hooks.ts").write_text(hooks_content)
+
+    # Remove extracted block from sidebar.tsx
+    src = src[: m.start()] + src[m.end() :]
+
+    # sidebar.tsx components use SidebarContext, SidebarContextProps (type), and useSidebar
+    # SidebarContextProps is a type — use inline 'type' modifier for verbatimModuleSyntax
+    import_line = (
+        "import { SidebarContext, type SidebarContextProps, useSidebar }"
+        ' from "./sidebar-hooks"\n'
+    )
+    src = _insert_import(src, import_line)
+
+    # Fix Math.random() in SidebarMenuSkeleton — replace with stable literal
+    src = src.replace(
+        "  // Random width between 50 to 90%.\n"
+        "  const width = React.useMemo(() => {\n"
+        "    return `${Math.floor(Math.random() * 40) + 50}%`\n"
+        "  }, [])",
+        "  const width = '60%'",
+    )
+
     path.write_text(src)
-    print("  fixed  sidebar.tsx")
+    print("  extracted  sidebar.tsx  →  sidebar-hooks.ts")
 
 
 # ---------------------------------------------------------------------------
@@ -501,13 +638,13 @@ def main() -> None:
     fix_calendar()
     fix_toggle_group()
 
-    # [5] Create index.ts
-    print(f"\n[5] Create {controls_rel}/index.ts")
-    write_index()
-
-    # [6] Fix all import ordering / lint
-    print("\n[6] Fix import ordering and linting")
+    # [5] Fix all import ordering / lint
+    print("\n[5] Fix import ordering and linting")
     run_lint(f"bunx eslint --fix {controls_rel}/")
+
+    # [6] Create index.ts (last — after all files are in their final state)
+    print(f"\n[6] Create {controls_rel}/index.ts")
+    write_index()
 
     print("\nDone.")
 
