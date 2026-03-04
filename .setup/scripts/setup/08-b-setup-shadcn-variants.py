@@ -9,6 +9,7 @@
 # 2. Fixes `import { type VariantProps }` → `import type { VariantProps }` everywhere
 # 3. Updates cross-control imports that used to import variants from component files
 # 4. Creates src/controls/index.ts re-exporting all controls and variants files
+# 5. Runs eslint --fix on src/controls/
 
 import re
 import subprocess

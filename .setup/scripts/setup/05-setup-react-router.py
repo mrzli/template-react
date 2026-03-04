@@ -7,6 +7,7 @@
 # 4. Creates src/app/home-page.tsx — loader returning welcome message; shows Vite/React logos
 # 5. Creates src/app/about-page.tsx — async action handling a Form POST, returns a greeting
 # 6. Rewrites src/main.tsx to use RouterProvider
+# 7. Runs eslint --fix on all new and modified files
 
 import subprocess
 import sys

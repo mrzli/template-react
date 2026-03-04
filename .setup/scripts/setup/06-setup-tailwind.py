@@ -7,6 +7,7 @@
 # 4. Creates src/app/tailwind-page.tsx — showcases utility classes (buttons, color grid)
 # 5. Patches src/routing/router.tsx to add the /tailwind route
 # 6. Patches src/app/app.tsx nav to add a Tailwind link
+# 7. Runs eslint --fix on all new and modified files
 
 import subprocess
 import sys

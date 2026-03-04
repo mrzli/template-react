@@ -2,9 +2,8 @@
 
 # What this script does:
 # 1. Takes a project name as a command-line argument
-# 2. Scaffolds a new Vite react-ts project into a tmp/ directory using bunx create vite
+# 2. Scaffolds a new Vite react-ts project into tmp/<name>/ using bun create vite
 # 3. Copies the scaffolded project files to the workspace root
-# 4. Removes the tmp/ directory
 
 import shutil
 import subprocess
