@@ -58,13 +58,11 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Use `##-setup-tailwind.py` for this.
 - Add Redux Toolkit.
   - Use `##-setup-redux.py` for this.
-- Add low level controls.
+- Add `shadcn/ui` components.
   - First use `##-a-setup-shadcn-install.py` to add the shadcn/ui components to the project.
     - Components should be added directly under `src/controls/` directory.
   - Next use `##-b-setup-shadcn-refactor.py` to change the component code to follow the conventions defined in this project.
-  - PART 3 of this section starts here, DO NOT DO THIS YET:
-  - Add another page to the app where all of the components and variants are showcased.
-    - Read the `controls` directory to find out what all of the controls are, the use each of them, alphabetically on this showcase page.
+  - Next use `##-c-setup-shadcn-integration.py` to create a showcase page for the controls.
 - Add storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Use `##-setup-storybook.py` for this.
