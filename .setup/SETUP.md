@@ -66,6 +66,8 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
 - Add storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Use `##-setup-storybook.py` for this.
+- Add forms and validation.
+  - Use `##-setup-forms.py` for this.
 - Finalize the setup.
   - Use `##-finalize-setup.py` for this.
   - Additionally, for conventions and consistency across the project, and fix any issues if needed.
