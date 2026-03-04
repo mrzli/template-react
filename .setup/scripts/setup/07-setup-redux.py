@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 # What this script does:
-# 1. Installs @reduxjs/toolkit and react-redux
-# 2. Creates src/store/ with:
-#    - store.ts — configureStore, RootState, AppDispatch
-#    - hooks.ts — typed useAppDispatch and useAppSelector
-#    - index.ts — re-exports store, hooks, api/, slices/
-#    - slices/counter-slice.ts — increment/decrement/reset actions
-#    - slices/index.ts — re-exports slices
-#    - api/items-api.ts — createApi with fakeBaseQuery, in-memory data, cache tags
-#    - api/index.ts — re-exports api
-# 3. Creates src/app/redux-page.tsx — showcases counter slice and RTK Query items list
-# 4. Rewrites src/main.tsx to wrap RouterProvider with Redux <Provider>
-# 5. Patches src/routing/router.tsx to add the /redux route
-# 6. Patches src/app/app.tsx nav to add a Redux link
-# 7. Runs eslint --fix on all new and modified files
+# - Installs @reduxjs/toolkit and react-redux
+# - Creates src/store/ with:
+#   - store.ts — configureStore, RootState, AppDispatch
+#   - hooks.ts — typed useAppDispatch and useAppSelector
+#   - index.ts — re-exports store, hooks, api/, slices/
+#   - slices/counter-slice.ts — increment/decrement/reset actions
+#   - slices/index.ts — re-exports slices
+#   - api/items-api.ts — createApi with fakeBaseQuery, in-memory data, cache tags
+#   - api/index.ts — re-exports api
+# - Creates src/app/redux-page.tsx — showcases counter slice and RTK Query items list
+# - Rewrites src/main.tsx to wrap RouterProvider with Redux <Provider>
+# - Patches src/routing/router.tsx to add the /redux route
+# - Patches src/app/app.tsx nav to add a Redux link
+# - Runs eslint --fix on all new and modified files
 
 import subprocess
 from pathlib import Path

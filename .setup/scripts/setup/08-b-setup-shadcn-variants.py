@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 # What this script does:
-# 1. For each shadcn component that defines cva-based variants:
-#    - Extracts the variant const(s) into a separate `*-variants.ts` file
-#    - Removes cva from the component's imports
-#    - Adds an import of the variant from the variants file
-#    - Removes the variant from the component's export (it lives in variants file now)
-# 2. Fixes `import { type VariantProps }` → `import type { VariantProps }` everywhere
-# 3. Updates cross-control imports that used to import variants from component files
-# 4. Creates src/controls/index.ts re-exporting all controls and variants files
-# 5. Runs eslint --fix on src/controls/
+# - For each shadcn component that defines cva-based variants:
+#   - Extracts the variant const(s) into a separate `*-variants.ts` file
+#   - Removes cva from the component's imports
+#   - Adds an import of the variant from the variants file
+#   - Removes the variant from the component's export (it lives in variants file now)
+# - Fixes `import { type VariantProps }` → `import type { VariantProps }` everywhere
+# - Updates cross-control imports that used to import variants from component files
+# - Creates src/controls/index.ts re-exporting all controls and variants files
+# - Runs eslint --fix on src/controls/
 
 import re
 import subprocess

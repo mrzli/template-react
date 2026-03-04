@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 # What this script does:
-# 1. Runs bunx create storybook to initialise Storybook (exit code 1 is expected)
-# 2. Removes eslint-plugin-storybook from package.json (added by init, not needed)
-# 3. Runs bun install (with bunfig.toml temporarily hidden to bypass minimumReleaseAge)
-# 4. Patches .storybook/main.ts to point story globs at stories/ instead of src/
-# 5. Cleans the stories/ and src/stories/ directories of scaffold content
-# 6. Patches .storybook/preview.ts to import src/index.css (Tailwind styles)
-# 7. Creates stories/greeting.stories.tsx — a sample story with an inline Greeting component
-# 8. Removes the debug-storybook.log file left by storybook init
+# - Runs bunx create storybook to initialise Storybook (exit code 1 is expected)
+# - Removes eslint-plugin-storybook from package.json (added by init, not needed)
+# - Runs bun install (with bunfig.toml temporarily hidden to bypass minimumReleaseAge)
+# - Patches .storybook/main.ts to point story globs at stories/ instead of src/
+# - Cleans the stories/ and src/stories/ directories of scaffold content
+# - Patches .storybook/preview.ts to import src/index.css (Tailwind styles)
+# - Creates stories/greeting.stories.tsx — a sample story with an inline Greeting component
+# - Removes the debug-storybook.log file left by storybook init
 
 import json
 import os
