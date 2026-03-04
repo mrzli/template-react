@@ -7,6 +7,7 @@
 #   - Removes cva from the component's imports
 #   - Adds an import of the variant from the variants file
 #   - Removes the variant from the component's export (it lives in variants file now)
+# - Converts all trailing 'export { ... }' blocks to inline exports at point of definition
 # - Fixes `import { type VariantProps }` → `import type { VariantProps }` everywhere
 # - Updates cross-control imports that used to import variants from component files
 # - Creates <controls>/index.ts re-exporting all controls and variants files
@@ -22,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 
 if len(sys.argv) < 2:
-    print("Usage: python3 08-b-setup-shadcn-variants.py <controls-dir>")
+    print("Usage: python3 08-b-setup-shadcn-refactor.py <controls-dir>")
     sys.exit(1)
 CONTROLS = ROOT / sys.argv[1]
 
@@ -46,6 +47,44 @@ def run_lint(cmd: str) -> None:
 def collapse_blank_lines(src: str) -> str:
     """Replace 3+ consecutive newlines with exactly 2 (one blank line)."""
     return re.sub(r"\n{3,}", "\n\n", src)
+
+
+def convert_exports_to_inline(src: str) -> str:
+    """Convert trailing 'export { Name1, Name2 }' blocks to inline exports at definition."""
+    export_block_re = re.compile(r"^export \{([^}]*)\}", re.MULTILINE)
+
+    # Collect all exported names across all export blocks in the file
+    names: list[str] = []
+    for m in export_block_re.finditer(src):
+        for token in re.split(r"[\s,]+", m.group(1)):
+            token = token.strip()
+            if token:
+                names.append(token)
+
+    if not names:
+        return src
+
+    # Remove all export { ... } blocks (plus trailing newline if present)
+    src = re.sub(r"^export \{[^}]*\}\n?", "", src, flags=re.MULTILINE)
+
+    # Add export keyword to each matching const/function definition
+    for name in names:
+        src = re.sub(
+            r"^const " + re.escape(name) + r"\b",
+            "export const " + name,
+            src,
+            flags=re.MULTILINE,
+            count=1,
+        )
+        src = re.sub(
+            r"^function " + re.escape(name) + r"\b",
+            "export function " + name,
+            src,
+            flags=re.MULTILINE,
+            count=1,
+        )
+
+    return collapse_blank_lines(src)
 
 
 # ---------------------------------------------------------------------------
@@ -373,18 +412,31 @@ def main() -> None:
         exports_variants=True,
     )
 
-    # [2] Fix cross-control imports
-    print("\n[2] Fix cross-control imports")
+    # [2] Convert trailing export blocks to inline exports at point of definition
+    print("\n[2] Convert trailing export blocks to inline exports")
+    for p in sorted(CONTROLS.iterdir()):
+        if p.suffix not in (".ts", ".tsx") or p.stem == "index":
+            continue
+        if p.stem.endswith("-variants"):
+            continue
+        original = p.read_text()
+        updated = convert_exports_to_inline(original)
+        if updated != original:
+            p.write_text(updated)
+            print(f"  converted  {p.name}")
+
+    # [3] Fix cross-control imports
+    print("\n[3] Fix cross-control imports")
     fix_pagination()
     fix_calendar()
     fix_toggle_group()
 
-    # [3] Create index.ts
-    print(f"\n[3] Create {controls_rel}/index.ts")
+    # [4] Create index.ts
+    print(f"\n[4] Create {controls_rel}/index.ts")
     write_index()
 
-    # [4] Fix all import ordering / lint
-    print("\n[4] Fix import ordering and linting")
+    # [5] Fix all import ordering / lint
+    print("\n[5] Fix import ordering and linting")
     run_lint(f"bunx eslint --fix {controls_rel}/")
 
     print("\nDone.")
