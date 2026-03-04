@@ -112,8 +112,6 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-  ComboboxTrigger,
-  ComboboxValue,
   Command,
   CommandEmpty,
   CommandGroup,
@@ -627,11 +625,8 @@ export function ControlsPage() {
         {/* ── Combobox ──────────────────────────────────────── */}
         <Section title='Combobox'>
           <Combobox>
-            <ComboboxTrigger className='w-48'>
-              <ComboboxValue placeholder='Select fruit...' />
-            </ComboboxTrigger>
+            <ComboboxInput className='w-48' placeholder='Select fruit...' />
             <ComboboxContent>
-              <ComboboxInput placeholder='Search fruit...' />
               <ComboboxList>
                 <ComboboxEmpty>No results found.</ComboboxEmpty>
                 <ComboboxItem value='apple'>Apple</ComboboxItem>
@@ -875,8 +870,10 @@ export function ControlsPage() {
 
         {/* ── Label ─────────────────────────────────────────── */}
         <Section title='Label'>
-          <Label htmlFor='demo-input'>Email address</Label>
-          <Input className='w-48' id='demo-input' type='email' />
+          <div className='flex flex-col gap-1'>
+            <Label htmlFor='demo-input'>Email address</Label>
+            <Input className='w-48' id='demo-input' type='email' />
+          </div>
         </Section>
 
         {/* ── Menubar ───────────────────────────────────────── */}

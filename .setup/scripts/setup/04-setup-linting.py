@@ -25,11 +25,12 @@ def patch_eslint_config() -> None:
     path = ROOT / "eslint.config.js"
     src = path.read_text()
 
-    # Add simple-import-sort import before the defineConfig import line
-    src = src.replace(
-        "import { defineConfig, globalIgnores } from 'eslint/config'",
-        "import simpleImportSort from 'eslint-plugin-simple-import-sort'\nimport { defineConfig, globalIgnores } from 'eslint/config'",
-    )
+    # Add simple-import-sort import before the defineConfig import line (guard against re-runs)
+    if "eslint-plugin-simple-import-sort" not in src:
+        src = src.replace(
+            "import { defineConfig, globalIgnores } from 'eslint/config'",
+            "import simpleImportSort from 'eslint-plugin-simple-import-sort'\nimport { defineConfig, globalIgnores } from 'eslint/config'",
+        )
 
     # Extend globalIgnores to also exclude tmp/
     src = src.replace(
