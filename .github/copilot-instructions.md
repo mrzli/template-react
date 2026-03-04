@@ -40,7 +40,7 @@
 - All lambda functions which return `void` (or `Promise<void>` for async ones) should be implemented with a block body (e.g. `{}`) even if it is not strictly required, to avoid confusion and maintain consistency.
   - Do the same for functions which return other types, if that return value is meant to be ignored (e.g. many event handlers).
 - When both options are appropriate, prefer interface over type for types.
-    - However, if type inheritance is needed when using interfaces, prefer type with intersection instead.
+  - However, if type inheritance is needed when using interfaces, prefer type with intersection instead.
 
 ## Vite Guidelines
 

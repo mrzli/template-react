@@ -71,4 +71,4 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Make sure to format the entire project, specifically the source code files.
     - For example, make sure that all quotes are consistent, and other linting/prettier rules are followed.
   - Make sure that code files don't have unused imports.
-  - Delete any log or temporary files created during the setup.
+  - Delete any log or temporary files or directories created during the setup.

@@ -315,6 +315,69 @@ def write_index() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Lint fixes for shadcn files
+# ---------------------------------------------------------------------------
+
+
+def fix_combobox_lint() -> None:
+    path = CONTROLS / "combobox.tsx"
+    src = path.read_text()
+    # Remove unused 'children' from ComboboxChipsInput destructure
+    src = src.replace(
+        "  className,\n  children,\n  ...props\n}: ComboboxPrimitive.Input.Props)",
+        "  className,\n  ...props\n}: ComboboxPrimitive.Input.Props)",
+    )
+    # Suppress react-refresh for useComboboxAnchor (hook exported alongside components)
+    src = src.replace(
+        "export function useComboboxAnchor()",
+        "// eslint-disable-next-line react-refresh/only-export-components\nexport function useComboboxAnchor()",
+    )
+    path.write_text(src)
+    print("  fixed  combobox.tsx")
+
+
+def fix_direction_lint() -> None:
+    path = CONTROLS / "direction.tsx"
+    src = path.read_text()
+    # Suppress react-refresh for useDirection (re-export alongside component)
+    src = src.replace(
+        "export const useDirection = Direction.useDirection;",
+        "// eslint-disable-next-line react-refresh/only-export-components\nexport const useDirection = Direction.useDirection;",
+    )
+    path.write_text(src)
+    print("  fixed  direction.tsx")
+
+
+def fix_form_lint() -> None:
+    path = CONTROLS / "form.tsx"
+    src = path.read_text()
+    # Suppress react-refresh for useFormField (hook exported alongside components)
+    src = src.replace(
+        "export const useFormField = () => {",
+        "// eslint-disable-next-line react-refresh/only-export-components\nexport const useFormField = () => {",
+    )
+    path.write_text(src)
+    print("  fixed  form.tsx")
+
+
+def fix_sidebar_lint() -> None:
+    path = CONTROLS / "sidebar.tsx"
+    src = path.read_text()
+    # Suppress react-refresh for useSidebar (hook exported alongside components)
+    src = src.replace(
+        "export function useSidebar() {",
+        "// eslint-disable-next-line react-refresh/only-export-components\nexport function useSidebar() {",
+    )
+    # Replace Math.random() in SidebarMenuSkeleton with a stable literal value
+    src = src.replace(
+        "  // Random width between 50 to 90%.\n  const width = React.useMemo(() => {\n    return `${Math.floor(Math.random() * 40) + 50}%`;\n  }, []);",
+        "  const width = '60%';",
+    )
+    path.write_text(src)
+    print("  fixed  sidebar.tsx")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -425,18 +488,25 @@ def main() -> None:
             p.write_text(updated)
             print(f"  converted  {p.name}")
 
-    # [3] Fix cross-control imports
-    print("\n[3] Fix cross-control imports")
+    # [3] Fix lint issues in shadcn files
+    print("\n[3] Fix lint issues in shadcn files")
+    fix_combobox_lint()
+    fix_direction_lint()
+    fix_form_lint()
+    fix_sidebar_lint()
+
+    # [4] Fix cross-control imports
+    print("\n[4] Fix cross-control imports")
     fix_pagination()
     fix_calendar()
     fix_toggle_group()
 
-    # [4] Create index.ts
-    print(f"\n[4] Create {controls_rel}/index.ts")
+    # [5] Create index.ts
+    print(f"\n[5] Create {controls_rel}/index.ts")
     write_index()
 
-    # [5] Fix all import ordering / lint
-    print("\n[5] Fix import ordering and linting")
+    # [6] Fix all import ordering / lint
+    print("\n[6] Fix import ordering and linting")
     run_lint(f"bunx eslint --fix {controls_rel}/")
 
     print("\nDone.")
