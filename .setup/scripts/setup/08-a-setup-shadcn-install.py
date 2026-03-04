@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 # What this script does:
+# - Accepts a required controls directory argument (e.g. src/controls)
 # - Patches tsconfig.app.json to add the @/* path alias (required by shadcn)
 # - Patches tsconfig.json (root) to add the same alias (shadcn CLI reads this directly)
 # - Patches vite.config.ts to add path.resolve alias for @/ → src/
 # - Runs eslint --fix on vite.config.ts to sort the new import
 # - Runs shadcn init (zinc base color, CSS variables enabled) — writes components.json,
 #   updates src/index.css with CSS variables, installs clsx/tailwind-merge, creates src/lib/utils.ts
-# - Adds all available shadcn components into src/controls/
+# - Adds all available shadcn components into the controls directory
 
 import subprocess
 import sys
@@ -62,7 +63,13 @@ def patch_vite_config() -> None:
 
 
 def main() -> None:
-    print(f"Root: {ROOT}\n")
+    if len(sys.argv) < 2:
+        print("Usage: python3 08-a-setup-shadcn-install.py <controls-dir>")
+        sys.exit(1)
+    controls_dir = sys.argv[1]
+
+    print(f"Root: {ROOT}")
+    print(f"Controls: {controls_dir}\n")
 
     # 1. Add path aliases to tsconfig.app.json
     print("[1] Patch tsconfig.app.json (add @/* path alias)")
@@ -89,9 +96,9 @@ def main() -> None:
     run("bunx shadcn@latest init -y --base-color zinc")
     print()
 
-    # 6. Add every available component into src/controls/
-    print("[6] Add all shadcn components → src/controls/")
-    run("bunx shadcn@latest add -y -a -p src/controls")
+    # 6. Add every available component into the controls directory
+    print(f"[6] Add all shadcn components → {controls_dir}/")
+    run(f"bunx shadcn@latest add -y -a -p {controls_dir}")
 
     print("\nDone.")
 

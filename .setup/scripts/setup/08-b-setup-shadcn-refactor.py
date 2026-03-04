@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # What this script does:
+# - Accepts a required controls directory argument (e.g. src/controls)
 # - For each shadcn component that defines cva-based variants:
 #   - Extracts the variant const(s) into a separate `*-variants.ts` file
 #   - Removes cva from the component's imports
@@ -8,8 +9,10 @@
 #   - Removes the variant from the component's export (it lives in variants file now)
 # - Fixes `import { type VariantProps }` → `import type { VariantProps }` everywhere
 # - Updates cross-control imports that used to import variants from component files
-# - Creates src/controls/index.ts re-exporting all controls and variants files
-# - Runs eslint --fix on src/controls/
+# - Creates <controls>/index.ts re-exporting all controls and variants files
+# - Collapses multiple consecutive blank lines to a single blank line in all written files
+# - Uses export const at point of definition in variants files (no trailing export statement)
+# - Runs eslint --fix on the controls directory
 
 import re
 import subprocess
@@ -17,7 +20,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-CONTROLS = ROOT / "src" / "controls"
+
+if len(sys.argv) < 2:
+    print("Usage: python3 08-b-setup-shadcn-variants.py <controls-dir>")
+    sys.exit(1)
+CONTROLS = ROOT / sys.argv[1]
 
 
 def run(cmd: str) -> None:
@@ -34,6 +41,11 @@ def run_lint(cmd: str) -> None:
     result = subprocess.run(cmd, shell=True, cwd=ROOT)
     if result.returncode > 1:
         sys.exit(result.returncode)
+
+
+def collapse_blank_lines(src: str) -> str:
+    """Replace 3+ consecutive newlines with exactly 2 (one blank line)."""
+    return re.sub(r"\n{3,}", "\n\n", src)
 
 
 # ---------------------------------------------------------------------------
@@ -88,12 +100,13 @@ def extract_cva_consts(src: str, var_names: list[str]) -> tuple[list[str], str]:
 # ---------------------------------------------------------------------------
 
 
-def write_variants_file(path: Path, var_names: list[str], blocks: list[str]) -> None:
+def write_variants_file(path: Path, blocks: list[str]) -> None:
     lines = ['import { cva } from "class-variance-authority"\n']
     for block in blocks:
-        lines.append("\n" + block + "\n")
-    lines.append("\nexport { " + ", ".join(var_names) + " }\n")
-    path.write_text("".join(lines))
+        exported_block = re.sub(r"^const ", "export const ", block)
+        lines.append("\n" + exported_block + "\n")
+    content = collapse_blank_lines("".join(lines))
+    path.write_text(content)
 
 
 # ---------------------------------------------------------------------------
@@ -186,11 +199,11 @@ def process_component(
     if exports_variants:
         src = remove_from_export_block(src, var_names)
 
-    src_path.write_text(src)
+    src_path.write_text(collapse_blank_lines(src))
 
     # Write variants file
     vars_path = CONTROLS / f"{variants_stem}.ts"
-    write_variants_file(vars_path, var_names, blocks)
+    write_variants_file(vars_path, blocks)
 
     print(f"  extracted  {stem}.tsx  →  {variants_stem}.ts")
 
@@ -258,7 +271,8 @@ def write_index() -> None:
     )
     lines = [f'export * from "./{stem}"\n' for stem in files]
     (CONTROLS / "index.ts").write_text("".join(lines))
-    print(f"  created    src/controls/index.ts  ({len(files)} exports)")
+    controls_rel = CONTROLS.relative_to(ROOT)
+    print(f"  created    {controls_rel}/index.ts  ({len(files)} exports)")
 
 
 # ---------------------------------------------------------------------------
@@ -267,7 +281,9 @@ def write_index() -> None:
 
 
 def main() -> None:
-    print(f"Root: {ROOT}\n")
+    controls_rel = CONTROLS.relative_to(ROOT)
+    print(f"Root: {ROOT}")
+    print(f"Controls: {controls_rel}\n")
 
     # [1] Extract variants from each component
     print("[1] Extract cva variants into separate files")
@@ -364,12 +380,12 @@ def main() -> None:
     fix_toggle_group()
 
     # [3] Create index.ts
-    print("\n[3] Create src/controls/index.ts")
+    print(f"\n[3] Create {controls_rel}/index.ts")
     write_index()
 
     # [4] Fix all import ordering / lint
     print("\n[4] Fix import ordering and linting")
-    run_lint("bunx eslint --fix src/controls/")
+    run_lint(f"bunx eslint --fix {controls_rel}/")
 
     print("\nDone.")
 
