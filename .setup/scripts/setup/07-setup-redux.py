@@ -10,10 +10,10 @@
 #   - slices/index.ts — re-exports slices
 #   - api/items-api.ts — createApi with fakeBaseQuery, in-memory data, cache tags
 #   - api/index.ts — re-exports api
-# - Creates src/app/redux-page.tsx — showcases counter slice and RTK Query items list
+# - Creates src/app/examples/redux-page.tsx — showcases counter slice and RTK Query items list
 # - Rewrites src/main.tsx to wrap RouterProvider with Redux <Provider>
-# - Patches src/routing/router.tsx to add the /redux route
-# - Patches src/app/app.tsx nav to add a Redux link
+# - Patches src/routing/router.tsx to add the /examples/redux route
+# - Patches src/app/examples/examples-layout.tsx nav to add a Redux link
 # - Runs eslint --fix on all new and modified files
 
 import subprocess
@@ -155,7 +155,7 @@ import {
   useAppDispatch,
   useAppSelector,
   useGetItemsQuery,
-} from '../store';
+} from '../../store';
 
 const sectionStyle: CSSProperties = {
   marginBottom: '2rem',
@@ -321,42 +321,42 @@ def patch_router_tsx() -> None:
 
     # Add ReduxPage import (after TailwindPage import)
     src = src.replace(
-        "import { TailwindPage } from '../app/tailwind-page';",
-        "import { ReduxPage } from '../app/redux-page';\n"
-        "import { TailwindPage } from '../app/tailwind-page';",
+        "import { TailwindPage } from '../app/examples/tailwind-page';",
+        "import { ReduxPage } from '../app/examples/redux-page';\n"
+        "import { TailwindPage } from '../app/examples/tailwind-page';",
     )
 
-    # Add /redux route (after tailwind child route)
+    # Add /examples/redux route (after tailwind child route)
     src = src.replace(
-        "      { path: 'tailwind', element: <TailwindPage /> },\n    ],",
-        "      { path: 'tailwind', element: <TailwindPage /> },\n"
-        "      { path: 'redux', element: <ReduxPage /> },\n    ],",
+        "          { path: 'tailwind', element: <TailwindPage /> },\n        ],",
+        "          { path: 'tailwind', element: <TailwindPage /> },\n"
+        "          { path: 'redux', element: <ReduxPage /> },\n        ],",
     )
 
     path.write_text(src)
     print("  patched  src/routing/router.tsx")
 
 
-def patch_app_tsx() -> None:
-    path = ROOT / "src" / "app" / "app.tsx"
+def patch_examples_layout_tsx() -> None:
+    path = ROOT / "src" / "app" / "examples" / "examples-layout.tsx"
     src = path.read_text()
 
     src = src.replace(
-        "        <Link style={linkStyle} to='/tailwind'>\n"
+        "        <Link style={linkStyle} to='/examples/tailwind'>\n"
         "          Tailwind\n"
         "        </Link>\n"
         "      </nav>",
-        "        <Link style={linkStyle} to='/tailwind'>\n"
+        "        <Link style={linkStyle} to='/examples/tailwind'>\n"
         "          Tailwind\n"
         "        </Link>\n"
-        "        <Link style={linkStyle} to='/redux'>\n"
+        "        <Link style={linkStyle} to='/examples/redux'>\n"
         "          Redux\n"
         "        </Link>\n"
         "      </nav>",
     )
 
     path.write_text(src)
-    print("  patched  src/app/app.tsx")
+    print("  patched  src/app/examples/examples-layout.tsx")
 
 
 # ---------------------------------------------------------------------------
@@ -400,10 +400,10 @@ def main() -> None:
     print()
 
     # [3] Create redux-page.tsx
-    print("[3] Create src/app/redux-page.tsx")
-    redux_page = ROOT / "src" / "app" / "redux-page.tsx"
+    print("[3] Create src/app/examples/redux-page.tsx")
+    redux_page = ROOT / "src" / "app" / "examples" / "redux-page.tsx"
     redux_page.write_text(REDUX_PAGE_TSX)
-    print("  created  src/app/redux-page.tsx\n")
+    print("  created  src/app/examples/redux-page.tsx\n")
 
     # [4] Rewrite main.tsx
     print("[4] Rewrite src/main.tsx")
@@ -415,9 +415,9 @@ def main() -> None:
     patch_router_tsx()
     print()
 
-    # [6] Patch app.tsx nav
-    print("[6] Patch src/app/app.tsx")
-    patch_app_tsx()
+    # [6] Patch examples-layout.tsx nav
+    print("[6] Patch src/app/examples/examples-layout.tsx")
+    patch_examples_layout_tsx()
     print()
 
     # [7] Fix imports / formatting
@@ -431,10 +431,10 @@ def main() -> None:
             "src/store/slices/index.ts",
             "src/store/api/items-api.ts",
             "src/store/api/index.ts",
-            "src/app/redux-page.tsx",
+            "src/app/examples/redux-page.tsx",
             "src/main.tsx",
             "src/routing/router.tsx",
-            "src/app/app.tsx",
+            "src/app/examples/examples-layout.tsx",
         ]
     )
     run(f"bunx eslint --fix {files_to_fix}")

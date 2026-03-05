@@ -4,9 +4,9 @@
 # - Installs tailwindcss and @tailwindcss/vite as dev dependencies
 # - Patches vite.config.ts to add the tailwindcss() Vite plugin
 # - Writes @import "tailwindcss" to src/index.css
-# - Creates src/app/tailwind-page.tsx — showcases utility classes (buttons, color grid)
-# - Patches src/routing/router.tsx to add the /tailwind route
-# - Patches src/app/app.tsx nav to add a Tailwind link
+# - Creates src/app/examples/tailwind-page.tsx — showcases utility classes (buttons, color grid)
+# - Patches src/routing/router.tsx to add the /examples/tailwind route
+# - Patches src/app/examples/examples-layout.tsx nav to add a Tailwind link
 # - Runs eslint --fix on all new and modified files
 
 import subprocess
@@ -41,22 +41,22 @@ def patch_router_tsx() -> None:
     path = ROOT / "src" / "routing" / "router.tsx"
     src = path.read_text()
     src = src.replace(
-        "import { homeLoader, HomePage } from '../app/home-page';",
-        "import { homeLoader, HomePage } from '../app/home-page';\nimport { TailwindPage } from '../app/tailwind-page';",
+        "import { ExamplesLayout } from '../app/examples/examples-layout';",
+        "import { ExamplesLayout } from '../app/examples/examples-layout';\nimport { TailwindPage } from '../app/examples/tailwind-page';",
     )
     src = src.replace(
-        "      { path: 'about', element: <AboutPage />, action: aboutAction },\n    ],",
-        "      { path: 'about', element: <AboutPage />, action: aboutAction },\n      { path: 'tailwind', element: <TailwindPage /> },\n    ],",
+        "          { path: 'about', element: <AboutPage />, action: aboutAction },\n        ],",
+        "          { path: 'about', element: <AboutPage />, action: aboutAction },\n          { path: 'tailwind', element: <TailwindPage /> },\n        ],",
     )
     path.write_text(src)
 
 
-def patch_app_tsx() -> None:
-    path = ROOT / "src" / "app" / "app.tsx"
+def patch_examples_layout_tsx() -> None:
+    path = ROOT / "src" / "app" / "examples" / "examples-layout.tsx"
     src = path.read_text()
     src = src.replace(
-        "        <Link style={linkStyle} to='/about'>\n          About\n        </Link>\n      </nav>",
-        "        <Link style={linkStyle} to='/about'>\n          About\n        </Link>\n        <Link style={linkStyle} to='/tailwind'>\n          Tailwind\n        </Link>\n      </nav>",
+        "        <Link style={linkStyle} to='/examples/about'>\n          About\n        </Link>\n      </nav>",
+        "        <Link style={linkStyle} to='/examples/about'>\n          About\n        </Link>\n        <Link style={linkStyle} to='/examples/tailwind'>\n          Tailwind\n        </Link>\n      </nav>",
     )
     path.write_text(src)
 
@@ -116,25 +116,27 @@ def main() -> None:
     (ROOT / "src" / "index.css").write_text('@import "tailwindcss";\n')
     print("  written  src/index.css")
 
-    # 4. Create src/app/tailwind-page.tsx
-    print("\n[4] Create src/app/tailwind-page.tsx")
-    (ROOT / "src" / "app" / "tailwind-page.tsx").write_text(TAILWIND_PAGE_TSX)
-    print("  created  src/app/tailwind-page.tsx")
+    # 4. Create src/app/examples/tailwind-page.tsx
+    print("\n[4] Create src/app/examples/tailwind-page.tsx")
+    (ROOT / "src" / "app" / "examples" / "tailwind-page.tsx").write_text(
+        TAILWIND_PAGE_TSX
+    )
+    print("  created  src/app/examples/tailwind-page.tsx")
 
-    # 5. Patch src/routing/router.tsx to add /tailwind route
+    # 5. Patch src/routing/router.tsx to add /examples/tailwind route
     print("\n[5] Patch src/routing/router.tsx")
     patch_router_tsx()
     print("  patched  src/routing/router.tsx")
 
-    # 6. Patch src/app/app.tsx nav to add Tailwind link
-    print("\n[6] Patch src/app/app.tsx")
-    patch_app_tsx()
-    print("  patched  src/app/app.tsx")
+    # 6. Patch src/app/examples/examples-layout.tsx nav to add Tailwind link
+    print("\n[6] Patch src/app/examples/examples-layout.tsx")
+    patch_examples_layout_tsx()
+    print("  patched  src/app/examples/examples-layout.tsx")
 
     # 7. Fix import ordering
     print("\n[7] Fix import ordering")
     run(
-        "bunx eslint --fix src/routing/router.tsx src/app/app.tsx src/app/tailwind-page.tsx"
+        "bunx eslint --fix src/routing/router.tsx src/app/examples/examples-layout.tsx src/app/examples/tailwind-page.tsx"
     )
 
     print("\nDone.")

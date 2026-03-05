@@ -2,7 +2,7 @@
 
 # What this script does:
 # - Installs react-hook-form, zod, and @hookform/resolvers (if not already present)
-# - Creates src/app/forms-page.tsx — a signup-style form demonstrating:
+# - Creates src/app/examples/forms-page.tsx — a signup-style form demonstrating:
 #   - Text input with min-length validation (name)
 #   - Email input with format validation (email)
 #   - Number input with optional range validation (age)
@@ -10,8 +10,8 @@
 #   - Textarea with max-length validation (bio)
 #   - Checkbox with required acceptance (terms)
 #   - Success panel displaying submitted values
-# - Patches src/routing/router.tsx to add the /forms route
-# - Patches src/app/app.tsx nav to add a Forms link
+# - Patches src/routing/router.tsx to add the /examples/forms route
+# - Patches src/app/examples/examples-layout.tsx nav to add a Forms link
 # - Runs eslint --fix on all new and modified files
 
 import subprocess
@@ -38,8 +38,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { Button } from '../controls/button';
-import { Checkbox } from '../controls/checkbox';
+import { Button } from '../../controls/button';
+import { Checkbox } from '../../controls/checkbox';
 import {
   Form,
   FormControl,
@@ -48,16 +48,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../controls/form';
-import { Input } from '../controls/input';
+} from '../../controls/form';
+import { Input } from '../../controls/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../controls/select';
-import { Textarea } from '../controls/textarea';
+} from '../../controls/select';
+import { Textarea } from '../../controls/textarea';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -280,9 +280,9 @@ def ensure_installed() -> None:
 
 
 def create_forms_page() -> None:
-    dest = ROOT / "src" / "app" / "forms-page.tsx"
+    dest = ROOT / "src" / "app" / "examples" / "forms-page.tsx"
     dest.write_text(FORMS_PAGE_TSX)
-    print("  created  src/app/forms-page.tsx")
+    print("  created  src/app/examples/forms-page.tsx")
 
 
 def patch_router() -> None:
@@ -295,35 +295,35 @@ def patch_router() -> None:
 
     # Add import after the last app import line
     src = src.replace(
-        "import { TailwindPage } from '../app/tailwind-page';",
-        "import { FormsPage } from '../app/forms-page';\nimport { TailwindPage } from '../app/tailwind-page';",
+        "import { TailwindPage } from '../app/examples/tailwind-page';",
+        "import { FormsPage } from '../app/examples/forms-page';\nimport { TailwindPage } from '../app/examples/tailwind-page';",
     )
 
     # Add route after controls route
     src = src.replace(
-        "{ path: 'controls', element: <ControlsPage /> },",
-        "{ path: 'controls', element: <ControlsPage /> },\n      { path: 'forms', element: <FormsPage /> },",
+        "          { path: 'controls', element: <ControlsPage /> },\n        ],",
+        "          { path: 'controls', element: <ControlsPage /> },\n          { path: 'forms', element: <FormsPage /> },\n        ],",
     )
 
     path.write_text(src)
     print("  patched  src/routing/router.tsx")
 
 
-def patch_app() -> None:
-    path = ROOT / "src" / "app" / "app.tsx"
+def patch_examples_layout() -> None:
+    path = ROOT / "src" / "app" / "examples" / "examples-layout.tsx"
     src = path.read_text()
 
-    if "to='/forms'" in src:
-        print("  skipped  src/app/app.tsx (already patched)")
+    if "to='/examples/forms'" in src:
+        print("  skipped  src/app/examples/examples-layout.tsx (already patched)")
         return
 
     src = src.replace(
-        "<Link style={linkStyle} to='/controls'>\n          Controls\n        </Link>",
-        "<Link style={linkStyle} to='/controls'>\n          Controls\n        </Link>\n        <Link style={linkStyle} to='/forms'>\n          Forms\n        </Link>",
+        "<Link style={linkStyle} to='/examples/controls'>\n          Controls\n        </Link>",
+        "<Link style={linkStyle} to='/examples/controls'>\n          Controls\n        </Link>\n        <Link style={linkStyle} to='/examples/forms'>\n          Forms\n        </Link>",
     )
 
     path.write_text(src)
-    print("  patched  src/app/app.tsx")
+    print("  patched  src/app/examples/examples-layout.tsx")
 
 
 # ---------------------------------------------------------------------------
@@ -337,18 +337,18 @@ def main() -> None:
     print("[1] Ensure react-hook-form, zod, @hookform/resolvers are installed")
     ensure_installed()
 
-    print("\n[2] Create src/app/forms-page.tsx")
+    print("\n[2] Create src/app/examples/forms-page.tsx")
     create_forms_page()
 
     print("\n[3] Patch src/routing/router.tsx")
     patch_router()
 
-    print("\n[4] Patch src/app/app.tsx")
-    patch_app()
+    print("\n[4] Patch src/app/examples/examples-layout.tsx")
+    patch_examples_layout()
 
     print("\n[5] Fix import ordering and linting")
     run(
-        "bunx eslint --fix src/app/forms-page.tsx src/routing/router.tsx src/app/app.tsx"
+        "bunx eslint --fix src/app/examples/forms-page.tsx src/routing/router.tsx src/app/examples/examples-layout.tsx"
     )
 
     print("\nDone.")

@@ -2,10 +2,12 @@
 
 # What this script does:
 # - Installs react-router
-# - Creates src/routing/router.tsx — createBrowserRouter with App layout and two child routes
-# - Creates src/app/app.tsx — layout component with nav links and <Outlet>
-# - Creates src/app/home-page.tsx — loader returning welcome message; shows Vite/React logos
-# - Creates src/app/about-page.tsx — async action handling a Form POST, returns a greeting
+# - Creates src/routing/router.tsx — createBrowserRouter with App root layout and nested examples routes
+# - Creates src/app/app.tsx — minimal root layout with Home and Examples nav links
+# - Creates src/app/examples/examples-layout.tsx — examples section layout with sub-nav
+# - Creates src/app/home-page.tsx — simple landing page with Vite/React logos and link to /examples
+# - Creates src/app/examples/home-page.tsx — examples index page with Vite/React logos and description
+# - Creates src/app/examples/about-page.tsx — async action handling a Form POST, returns a greeting
 # - Rewrites src/main.tsx to use RouterProvider
 # - Runs eslint --fix on all new and modified files
 
@@ -81,8 +83,8 @@ export function App() {
         <Link style={linkStyle} to='/'>
           Home
         </Link>
-        <Link style={linkStyle} to='/about'>
-          About
+        <Link style={linkStyle} to='/examples'>
+          Examples
         </Link>
       </nav>
       <main style={mainStyle}>
@@ -97,32 +99,70 @@ ROUTER_TSX = """\
 import { createBrowserRouter } from 'react-router';
 
 import { App } from '../app/app';
-import { aboutAction, AboutPage } from '../app/about-page';
-import { homeLoader, HomePage } from '../app/home-page';
+import { aboutAction, AboutPage } from '../app/examples/about-page';
+import { ExamplesHomePage } from '../app/examples/home-page';
+import { ExamplesLayout } from '../app/examples/examples-layout';
+import { HomePage } from '../app/home-page';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <HomePage />, loader: homeLoader },
-      { path: 'about', element: <AboutPage />, action: aboutAction },
+      { index: true, element: <HomePage /> },
+      {
+        path: 'examples',
+        element: <ExamplesLayout />,
+        children: [
+          { index: true, element: <ExamplesHomePage /> },
+          { path: 'about', element: <AboutPage />, action: aboutAction },
+        ],
+      },
     ],
   },
 ]);
 """
 
-HOME_PAGE_TSX = """\
+EXAMPLES_LAYOUT_TSX = """\
 import type { CSSProperties } from 'react';
-import { useLoaderData } from 'react-router';
+import { Link, Outlet } from 'react-router';
 
-import reactLogo from '../assets/react.svg';
-import viteLogo from '/vite.svg';
+const navStyle: CSSProperties = {
+  background: '#f9fafb',
+  borderBottom: '1px solid #e5e5e5',
+  padding: '0.5rem 1.5rem',
+  display: 'flex',
+  gap: '1.25rem',
+};
 
-interface HomeLoaderData {
-  readonly message: string;
-  readonly items: readonly string[];
+const linkStyle: CSSProperties = {
+  color: '#2563eb',
+  textDecoration: 'none',
+  fontSize: '0.875rem',
+};
+
+export function ExamplesLayout() {
+  return (
+    <div>
+      <nav style={navStyle}>
+        <Link style={linkStyle} to='/examples'>
+          Home
+        </Link>
+        <Link style={linkStyle} to='/examples/about'>
+          About
+        </Link>
+      </nav>
+      <Outlet />
+    </div>
+  );
 }
+"""
+
+EXAMPLES_HOME_PAGE_TSX = """\
+import type { CSSProperties } from 'react';
+
+import reactLogo from '../../assets/react.svg';
+import viteLogo from '/vite.svg';
 
 const cardStyle: CSSProperties = {
   background: '#fff',
@@ -137,10 +177,53 @@ const headingStyle: CSSProperties = {
   marginBottom: '0.5rem',
 };
 
-const listStyle: CSSProperties = {
-  listStyleType: 'disc',
-  paddingInlineStart: '1.5rem',
-  marginTop: '0.5rem',
+const logoRowStyle: CSSProperties = {
+  display: 'flex',
+  gap: '1rem',
+  marginTop: '1rem',
+};
+
+const logoStyle: CSSProperties = {
+  height: '4rem',
+};
+
+export function ExamplesHomePage() {
+  return (
+    <div style={cardStyle}>
+      <h1 style={headingStyle}>Examples</h1>
+      <p>Browse the pages in this section to see examples of the features included in this template.</p>
+      <div style={logoRowStyle}>
+        <img alt='Vite logo' src={viteLogo} style={logoStyle} />
+        <img alt='React logo' src={reactLogo} style={logoStyle} />
+      </div>
+    </div>
+  );
+}
+"""
+
+HOME_PAGE_TSX = """\
+import type { CSSProperties } from 'react';
+import { Link } from 'react-router';
+
+import reactLogo from '../assets/react.svg';
+import viteLogo from '/vite.svg';
+
+const cardStyle: CSSProperties = {
+  background: '#fff',
+  border: '1px solid #e5e5e5',
+  borderRadius: '8px',
+  padding: '1.5rem 2rem',
+};
+
+const headingStyle: CSSProperties = {
+  fontSize: '1.5rem',
+  fontWeight: 700,
+  marginBottom: '0.5rem',
+};
+
+const linkStyle: CSSProperties = {
+  color: '#2563eb',
+  textDecoration: 'none',
 };
 
 const logoRowStyle: CSSProperties = {
@@ -153,26 +236,16 @@ const logoStyle: CSSProperties = {
   height: '4rem',
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function homeLoader(): HomeLoaderData {
-  return {
-    message: 'Welcome to the home page!',
-    items: ['React', 'Vite', 'TypeScript', 'React Router'],
-  };
-}
-
 export function HomePage() {
-  const { message, items } = useLoaderData<typeof homeLoader>();
-
   return (
     <div style={cardStyle}>
-      <h1 style={headingStyle}>{message}</h1>
-      <p>This data was provided by a loader.</p>
-      <ul style={listStyle}>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
+      <h1 style={headingStyle}>template-react</h1>
+      <p>A React + Vite + TypeScript template.</p>
+      <p style={{ marginTop: '1rem' }}>
+        <Link style={linkStyle} to='/examples'>
+          View examples →
+        </Link>
+      </p>
       <div style={logoRowStyle}>
         <img alt='Vite logo' src={viteLogo} style={logoStyle} />
         <img alt='React logo' src={reactLogo} style={logoStyle} />
@@ -286,8 +359,8 @@ def main() -> None:
     (routing_dir / "router.tsx").write_text(ROUTER_TSX)
     print("  created  src/routing/router.tsx")
 
-    # 3. Rewrite src/app/app.tsx as root layout
-    print("\n[3] Rewrite src/app/app.tsx as root layout")
+    # 3. Rewrite src/app/app.tsx as minimal root layout
+    print("\n[3] Rewrite src/app/app.tsx as minimal root layout")
     (ROOT / "src" / "app" / "app.tsx").write_text(APP_TSX)
     print("  updated  src/app/app.tsx")
 
@@ -296,20 +369,32 @@ def main() -> None:
     (ROOT / "src" / "app" / "home-page.tsx").write_text(HOME_PAGE_TSX)
     print("  created  src/app/home-page.tsx")
 
-    # 5. Create src/app/about-page.tsx
-    print("\n[5] Create src/app/about-page.tsx")
-    (ROOT / "src" / "app" / "about-page.tsx").write_text(ABOUT_PAGE_TSX)
-    print("  created  src/app/about-page.tsx")
+    # 5. Create src/app/examples/ and examples-layout.tsx
+    print("\n[5] Create src/app/examples/examples-layout.tsx")
+    examples_dir = ROOT / "src" / "app" / "examples"
+    examples_dir.mkdir(exist_ok=True)
+    (examples_dir / "examples-layout.tsx").write_text(EXAMPLES_LAYOUT_TSX)
+    print("  created  src/app/examples/examples-layout.tsx")
 
-    # 6. Write src/main.tsx to use RouterProvider
-    print("\n[6] Write src/main.tsx")
+    # 6. Create src/app/examples/home-page.tsx
+    print("\n[6] Create src/app/examples/home-page.tsx")
+    (examples_dir / "home-page.tsx").write_text(EXAMPLES_HOME_PAGE_TSX)
+    print("  created  src/app/examples/home-page.tsx")
+
+    # 7. Create src/app/examples/about-page.tsx
+    print("\n[7] Create src/app/examples/about-page.tsx")
+    (examples_dir / "about-page.tsx").write_text(ABOUT_PAGE_TSX)
+    print("  created  src/app/examples/about-page.tsx")
+
+    # 8. Write src/main.tsx to use RouterProvider
+    print("\n[8] Write src/main.tsx")
     write_main_tsx()
     print("  written  src/main.tsx")
 
-    # 7. Fix import ordering via eslint
-    print("\n[7] Fix import ordering")
+    # 9. Fix import ordering via eslint
+    print("\n[9] Fix import ordering")
     run(
-        "bunx eslint --fix src/routing/router.tsx src/app/app.tsx src/app/home-page.tsx src/app/about-page.tsx src/main.tsx"
+        "bunx eslint --fix src/routing/router.tsx src/app/app.tsx src/app/home-page.tsx src/app/examples/examples-layout.tsx src/app/examples/home-page.tsx src/app/examples/about-page.tsx src/main.tsx"
     )
 
     print("\nDone.")

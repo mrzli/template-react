@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # What this script does:
-# - Creates src/app/controls-page.tsx — showcases all shadcn controls alphabetically
-# - Patches src/routing/router.tsx to add the /controls route
-# - Patches src/app/app.tsx nav to add a Controls link
+# - Creates src/app/examples/controls-page.tsx — showcases all shadcn controls alphabetically
+# - Patches src/routing/router.tsx to add the /examples/controls route
+# - Patches src/app/examples/examples-layout.tsx nav to add a Controls link
 # - Runs eslint --fix on all new and modified files
 
 import subprocess
@@ -25,23 +25,23 @@ def patch_router_tsx() -> None:
     src = path.read_text()
     if "ControlsPage" not in src:
         src = src.replace(
-            "import { ReduxPage } from '../app/redux-page';",
-            "import { ControlsPage } from '../app/controls-page';\nimport { ReduxPage } from '../app/redux-page';",
+            "import { ReduxPage } from '../app/examples/redux-page';",
+            "import { ControlsPage } from '../app/examples/controls-page';\nimport { ReduxPage } from '../app/examples/redux-page';",
         )
         src = src.replace(
-            "      { path: 'redux', element: <ReduxPage /> },\n    ],",
-            "      { path: 'redux', element: <ReduxPage /> },\n      { path: 'controls', element: <ControlsPage /> },\n    ],",
+            "          { path: 'redux', element: <ReduxPage /> },\n        ],",
+            "          { path: 'redux', element: <ReduxPage /> },\n          { path: 'controls', element: <ControlsPage /> },\n        ],",
         )
         path.write_text(src)
 
 
-def patch_app_tsx() -> None:
-    path = ROOT / "src" / "app" / "app.tsx"
+def patch_examples_layout_tsx() -> None:
+    path = ROOT / "src" / "app" / "examples" / "examples-layout.tsx"
     src = path.read_text()
-    if "to='/controls'" not in src:
+    if "to='/examples/controls'" not in src:
         src = src.replace(
-            "        <Link style={linkStyle} to='/redux'>\n          Redux\n        </Link>\n      </nav>",
-            "        <Link style={linkStyle} to='/redux'>\n          Redux\n        </Link>\n        <Link style={linkStyle} to='/controls'>\n          Controls\n        </Link>\n      </nav>",
+            "        <Link style={linkStyle} to='/examples/redux'>\n          Redux\n        </Link>\n      </nav>",
+            "        <Link style={linkStyle} to='/examples/redux'>\n          Redux\n        </Link>\n        <Link style={linkStyle} to='/examples/controls'>\n          Controls\n        </Link>\n      </nav>",
         )
         path.write_text(src)
 
@@ -1311,25 +1311,27 @@ export function ControlsPage() {
 def main() -> None:
     print(f"Root: {ROOT}\n")
 
-    # 1. Create src/app/controls-page.tsx
-    print("[1] Create src/app/controls-page.tsx")
-    (ROOT / "src" / "app" / "controls-page.tsx").write_text(CONTROLS_PAGE_TSX)
-    print("  created  src/app/controls-page.tsx")
+    # 1. Create src/app/examples/controls-page.tsx
+    print("[1] Create src/app/examples/controls-page.tsx")
+    (ROOT / "src" / "app" / "examples" / "controls-page.tsx").write_text(
+        CONTROLS_PAGE_TSX
+    )
+    print("  created  src/app/examples/controls-page.tsx")
 
     # 2. Patch src/routing/router.tsx
     print("\n[2] Patch src/routing/router.tsx")
     patch_router_tsx()
     print("  patched  src/routing/router.tsx")
 
-    # 3. Patch src/app/app.tsx nav
-    print("\n[3] Patch src/app/app.tsx")
-    patch_app_tsx()
-    print("  patched  src/app/app.tsx")
+    # 3. Patch src/app/examples/examples-layout.tsx nav
+    print("\n[3] Patch src/app/examples/examples-layout.tsx")
+    patch_examples_layout_tsx()
+    print("  patched  src/app/examples/examples-layout.tsx")
 
     # 4. Fix import ordering
     print("\n[4] Fix import ordering")
     run(
-        "bunx eslint --fix src/app/controls-page.tsx src/routing/router.tsx src/app/app.tsx"
+        "bunx eslint --fix src/app/examples/controls-page.tsx src/routing/router.tsx src/app/examples/examples-layout.tsx"
     )
 
     print("\nDone.")
