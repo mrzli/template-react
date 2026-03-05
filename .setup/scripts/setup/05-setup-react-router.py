@@ -5,8 +5,8 @@
 # - Creates src/routing/router.tsx — createBrowserRouter with App root layout and nested examples routes
 # - Creates src/app/app.tsx — minimal root layout with Home and Examples nav links
 # - Creates src/app/examples/examples-layout.tsx — examples section layout with sub-nav
-# - Creates src/app/home-page.tsx — simple landing page with Vite/React logos and link to /examples
-# - Creates src/app/examples/home-page.tsx — examples index page with Vite/React logos and description
+# - Creates src/app/home-page.tsx — simple landing page with link to /examples (no images)
+# - Creates src/app/examples/home-page.tsx — examples index page with loader demo, Vite/React logos and description
 # - Creates src/app/examples/about-page.tsx — async action handling a Form POST, returns a greeting
 # - Rewrites src/main.tsx to use RouterProvider
 # - Runs eslint --fix on all new and modified files
@@ -100,7 +100,7 @@ import { createBrowserRouter } from 'react-router';
 
 import { App } from '../app/app';
 import { aboutAction, AboutPage } from '../app/examples/about-page';
-import { ExamplesHomePage } from '../app/examples/home-page';
+import { examplesHomeLoader, ExamplesHomePage } from '../app/examples/home-page';
 import { ExamplesLayout } from '../app/examples/examples-layout';
 import { HomePage } from '../app/home-page';
 
@@ -114,7 +114,7 @@ export const router = createBrowserRouter([
         path: 'examples',
         element: <ExamplesLayout />,
         children: [
-          { index: true, element: <ExamplesHomePage /> },
+          { index: true, element: <ExamplesHomePage />, loader: examplesHomeLoader },
           { path: 'about', element: <AboutPage />, action: aboutAction },
         ],
       },
@@ -160,9 +160,21 @@ export function ExamplesLayout() {
 
 EXAMPLES_HOME_PAGE_TSX = """\
 import type { CSSProperties } from 'react';
+import { useLoaderData } from 'react-router';
 
 import reactLogo from '../../assets/react.svg';
 import viteLogo from '/vite.svg';
+
+interface ExamplesHomeLoaderData {
+  readonly message: string;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function examplesHomeLoader(): ExamplesHomeLoaderData {
+  return {
+    message: 'This template demonstrates common patterns used in React apps.',
+  };
+}
 
 const cardStyle: CSSProperties = {
   background: '#fff',
@@ -188,10 +200,12 @@ const logoStyle: CSSProperties = {
 };
 
 export function ExamplesHomePage() {
+  const { message } = useLoaderData<typeof examplesHomeLoader>();
+
   return (
     <div style={cardStyle}>
       <h1 style={headingStyle}>Examples</h1>
-      <p>Browse the pages in this section to see examples of the features included in this template.</p>
+      <p>{message}</p>
       <div style={logoRowStyle}>
         <img alt='Vite logo' src={viteLogo} style={logoStyle} />
         <img alt='React logo' src={reactLogo} style={logoStyle} />
@@ -204,9 +218,6 @@ export function ExamplesHomePage() {
 HOME_PAGE_TSX = """\
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
-
-import reactLogo from '../assets/react.svg';
-import viteLogo from '/vite.svg';
 
 const cardStyle: CSSProperties = {
   background: '#fff',
@@ -226,16 +237,6 @@ const linkStyle: CSSProperties = {
   textDecoration: 'none',
 };
 
-const logoRowStyle: CSSProperties = {
-  display: 'flex',
-  gap: '1rem',
-  marginTop: '1rem',
-};
-
-const logoStyle: CSSProperties = {
-  height: '4rem',
-};
-
 export function HomePage() {
   return (
     <div style={cardStyle}>
@@ -246,10 +247,6 @@ export function HomePage() {
           View examples →
         </Link>
       </p>
-      <div style={logoRowStyle}>
-        <img alt='Vite logo' src={viteLogo} style={logoStyle} />
-        <img alt='React logo' src={reactLogo} style={logoStyle} />
-      </div>
     </div>
   );
 }
