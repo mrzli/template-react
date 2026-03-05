@@ -1,5 +1,9 @@
 # Project Instructions for GitHub Copilot
 
+## Notes
+
+If runnning queries based on instruction files, such as `SETUP.md`, carefully read the instructions and follow them. Read them every time I ask you to do something that is described in those instructions, and make sure you do not miss any new additions.
+
 ## Tech Stack
 
 - React + TypeScript

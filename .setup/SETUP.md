@@ -1,10 +1,14 @@
 # Project setup plan
 
-All input file paths for this are this directory, `.setup`. Project needs to be created.
+- All input file paths for this are this directory, `.setup`. Project needs to be created.
+- Single source of truth for stack, environment, steps, and conventions. This project will later be a React app; this document defines how to bootstrap and maintain it.
 
-Single source of truth for stack, environment, steps, and conventions. This project will later be a React app; this document defines how to bootstrap and maintain it.
+## Instructions
 
-Do just the steps specified in 'Setup steps' and anything else that is implied by conventions and required to make the project runnable. Do not add other dependencies or tools unless specified.
+- Do just the steps specified in 'Setup steps' and anything else that is implied by conventions and required to make the project runnable. Do not add other dependencies or tools unless specified.
+- When doing the steps, if they consist only of running scripts, group the calls for multiple steps together and run the in one go, to reduce the number of allow prompts.
+  - This does not mean everything needs to be done in one go, but can be the case.
+- Ask whether to execute the optional steps inside your response. Do not forget this.
 
 ## Placeholders
 
