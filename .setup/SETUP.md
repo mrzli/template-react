@@ -8,6 +8,7 @@
 - Do just the steps specified in 'Setup steps' and anything else that is implied by conventions and required to make the project runnable. Do not add other dependencies or tools unless specified.
 - When doing the steps, if they consist only of running scripts, group the calls for multiple steps together and run the in one go, to reduce the number of allow prompts.
   - This does not mean everything needs to be done in one go, but can be the case.
+  - Insert breakpoints when additional AI reasoning or decision making is required, not convered by scripts.
 - Ask whether to execute the optional steps inside your response. Do not forget this.
 
 ## Placeholders
@@ -67,6 +68,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
     - Components should be added directly under `src/controls/` directory.
   - Next use `##-b-setup-shadcn-refactor.py` to change the component code to follow the conventions defined in this project.
   - Next use `##-c-setup-shadcn-integration.py` to create a showcase page for the controls.
+  - Apply instructions from `.setup/instructions/controls.md` to the components in `src/controls/`.
 - Add storybook.
   - This step is optional. Prompt the user whether they want it or not, and only add it if they say yes.
   - Use `##-setup-storybook.py` for this.
