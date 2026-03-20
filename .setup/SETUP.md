@@ -54,7 +54,7 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - In any future steps, do not edit `.vscode/settings.json` or `.prettierrc` files, as they are already set up with the correct configuration.
 - Install dependencies.
 - Remove most of the components and styles.
-  - Use `##-cleanup-components.py` for this.
+  - Use `##-setup-app.py` for this.
 - Add linting and formatting.
   - Use `##-setup-linting.py` for this.
 - Add React Router.
