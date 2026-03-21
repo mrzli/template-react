@@ -8,7 +8,7 @@
 - Do just the steps specified in 'Setup steps' and anything else that is implied by conventions and required to make the project runnable. Do not add other dependencies or tools unless specified.
 - When doing the steps, if they consist only of running scripts, group the calls for multiple steps together and run the in one go, to reduce the number of allow prompts.
   - This does not mean everything needs to be done in one go, but can be the case.
-  - Insert breakpoints when additional AI reasoning or decision making is required, not convered by scripts. IMPORTANT to do this.
+  - Insert breakpoints when additional AI reasoning or decision making is required, not convered by scripts.
 - Ask whether to execute the optional steps inside your response. Do not forget this.
 
 ## Placeholders
@@ -53,10 +53,10 @@ This follows common CLI/man-style convention: replace `<placeholder>` with your 
   - Replace any placeholders in those files with the actual values (e.g. `<project-name>` with the project name).
   - In any future steps, do not edit `.vscode/settings.json` or `.prettierrc` files, as they are already set up with the correct configuration.
 - Install dependencies.
-- Remove most of the components and styles.
-  - Use `##-setup-app.py` for this.
 - Add linting and formatting.
   - Use `##-setup-linting.py` for this.
+- Remove most of the components and styles.
+  - Use `##-setup-app.py` for this.
 - Add React Router.
   - Use `##-setup-react-router.py` for this.
 - Add Tailwind.
