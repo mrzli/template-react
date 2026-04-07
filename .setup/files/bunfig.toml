@@ -1,3 +1,3 @@
 [install]
-minimumReleaseAge = 86400 # 1 day in seconds
+minimumReleaseAge = 259200 # 3 days in seconds
 minimumReleaseAgeExcludes = ["@gmjs/*"]
