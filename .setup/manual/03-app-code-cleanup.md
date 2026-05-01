@@ -1,11 +1,13 @@
-# Clean Up Basic App Code
+# App Code Cleanup
 
-## CSS Updates
+## Clean Up Basic App Code
+
+### CSS Updates
 
 - Keep `index.css` file, but delete all its content.
 - Remove all other CSS files and their imports.
 
-## Image Updates
+### Image Updates
 
 - Make sure there is exactly one image in `src/assets/` and one image in `public/`.
 - Add, remove, replace images as necessary.
@@ -15,7 +17,7 @@
 - Images in `public/` are imported by starting the path with `/`, where the subsequent path is relative to `public/`.
   - For example, if you have `vite.svg` directly under `public/`, you can import it with `/vite.svg`.
 
-## Update `App.tsx`
+### Update `App.tsx`
 
 - Create `src/app/` directory if it does not already exist.
 - Rename to `app.tsx` (uncapitalize) and move to `src/app/` directory.
@@ -62,7 +64,63 @@
     );
   };
 
-## Finalize Step
+### Finalize Step
 
 - Format using `bun run format`.
 - Commit with "cleanup basic app code".
+
+## Create Basic App Setup Structure
+
+- Create `src/setup/` directory if it does not already exist.
+
+### Create `run.tsx` File
+
+- Create `run.tsx` file under `src/setup/` directory.
+- Move the logic from `src/main.tsx` to `src/setup/run.tsx`.
+- Create an async function called `run` that contains the logic.
+- Make it look something like this:
+  ```tsx
+  import { StrictMode } from 'react';
+  import { createRoot } from 'react-dom/client';
+
+  import { App } from '../app/app';
+
+  export const run = async () => {
+    const root = document.getElementById('root');
+
+    if (!root) {
+      throw new Error('Root element not found');
+    }
+
+    const content = (
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+
+    createRoot(root).render(content);
+  };
+  ```
+
+### Create `index.ts` File
+
+- Create `index.ts` file under `src/setup/` directory.
+- Export everything from `run.tsx` in that file.
+
+### Update `main.tsx`
+
+- It should retain import for `index.css`.
+- Other than that, it should only import and execute the `run` function.
+- It should look like this:
+  ```tsx
+  import './index.css';
+
+  import { run } from './setup';
+
+  run();
+  ```
+
+### Finalize Step
+
+- Format using `bun run format`.
+- Commit with "create basic app setup structure".

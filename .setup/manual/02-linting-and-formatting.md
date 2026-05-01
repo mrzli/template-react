@@ -1,11 +1,13 @@
-# Setup Linting and Formatting
+# Linting and Formatting
+
+## Setup Linting and Formatting
 
 - Install missing dependencies:
   ```bash
   bun add -d eslint-plugin-simple-import-sort prettier
   ```
 
-## Update Lint Config File
+### Update Lint Config File
 
 - This refers to `eslint.config.js`.
 - You need to setup `eslint-plugin-simple-import-sort` to sort imports and exports.
@@ -31,7 +33,7 @@
   // ...
   ```
 
-## Update `package.json`
+### Update `package.json`
 
 - Remove any existing `lint` and `format` scripts.
 - Add the following scripts:
@@ -46,6 +48,14 @@
   }
   ```
 
-## Finalize Step
+### Finalize Step
 
 - Commit with "setup linting and formatting".
+
+## Format Project Files
+
+- Do the initial formatting of project files with `bun run format`.
+
+### Finalize Step
+
+- Commit with "format project files".
